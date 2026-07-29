@@ -1,16 +1,25 @@
-## Hi there 👋
+# Helix Guide
 
-<!--
-**cheungngaiying/cheungngaiying** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**Helix Guide** is a virtual learning environment for collaborative robot beginners. Build your own robot workspace by dragging items, customizing your digital human, and switching views.
 
-Here are some ideas to get you started:
+🔗 **Live Demo**: https://你的用户名.github.io/helix-guide/
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## Features
+- Customizable digital human (Gender + Face)
+- Add up to 5 items per type (Workbench, Robotic Arm, Plant, etc.)
+- Drag and drop items anywhere in the scene
+- First/Third person view switching
+- Save & restore with 6-letter private code
+- AI assistant for guidance
+
+## Tech
+- HTML / CSS / JavaScript
+- Frosted glass UI
+- GitHub Pages
+
+## Quick Start
+1. Click "Create New Environment"
+2. Select Gender & Face
+3. Add items from the Library
+4. Drag items to reposition
+5. Click "Save" for your private code
