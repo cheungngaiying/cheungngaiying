@@ -23,7 +23,6 @@
             align-items: center; justify-content: center; padding: 20px 30px 40px; transition: opacity 0.45s ease;
         }
         .cover.hidden { display: none; }
-
         .bubble-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden;
         }
@@ -219,7 +218,6 @@
             align-items: center; justify-content: center; padding: 20px;
         }
 
-        /* ===== SCENE CONTAINER WITH BORDER ===== */
         .scene-wrapper {
             position: absolute;
             top: 20px; left: 20px; right: 20px; bottom: 20px;
@@ -271,7 +269,6 @@
             font-family: 'Orbitron', sans-serif; z-index: 3;
         }
 
-        /* ===== POPUP - CENTER ===== */
         .popup-center {
             position: relative; z-index: 10; width: 90%; max-width: 720px;
             margin: auto;
@@ -621,14 +618,11 @@
         </div>
 
         <div class="right-panel" id="rightPanel">
-            <!-- 带边框的场景容器 -->
             <div class="scene-wrapper" id="sceneWrapper">
                 <div id="sceneContainer" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;"></div>
-                <!-- 弹窗容器 (居中) -->
                 <div id="popupContainer" style="position:relative;z-index:10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;">
                     <div style="pointer-events:auto;width:90%;max-width:720px;"></div>
                 </div>
-                <!-- Toast (右下角) -->
                 <div class="toast-panel" id="toastPanel"></div>
             </div>
         </div>
@@ -651,15 +645,11 @@
         </div>
     </div>
 
-    <!-- global toast (fallback) -->
     <div class="toast-global" id="toastGlobal"></div>
 </div>
 
 <script>
 (function() {
-    // ============================================================
-    // 状态
-    // ============================================================
     const MAX_PER_ITEM = 5;
     const ICON_MAP = {
         workbench:'🔧', control:'🎛️', arm:'🦾', conveyor:'⚙️',
@@ -963,6 +953,7 @@
         });
     }
 
+    // ===== 从Library点击才出现Info Board =====
     function renderInfoBoard() {
         const html = `
             <button class="close-btn" id="popupClose"><i class="fas fa-times"></i> Close</button>
@@ -1267,7 +1258,11 @@
         state.selectedGender = null; state.selectedFace = null;
         state.currentView = 'first'; state.codeInput = []; state.savedCode = null;
         enterMain();
-        setTimeout(() => renderInfoBoard(), 200);
+        // 进入后显示空场景，不自动显示Info Board
+        clearPopup();
+        renderScene();
+        updateLibraryStatus();
+        updateChatFace();
     });
 
     document.getElementById('btnEnterCode').addEventListener('click', function(e) {
