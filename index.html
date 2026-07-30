@@ -186,16 +186,32 @@
             overflow: hidden;
         }
         .scene-object {
-            position: absolute; font-size: 40px;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.04));
+            position: absolute;
             pointer-events: auto; z-index: 2; cursor: grab;
             padding: 4px; border-radius: 8px; touch-action: none;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .scene-object:hover { filter: drop-shadow(0 8px 20px rgba(0,0,0,0.08)); }
+        .scene-object img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.04));
+            transition: filter 0.2s ease;
+            pointer-events: none;
+        }
+        .scene-object:hover img { filter: drop-shadow(0 8px 20px rgba(0,0,0,0.08)); }
         .scene-object.dragging {
-            z-index: 10; opacity: 0.85; transform: scale(1.05);
-            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
+            z-index: 10;
+            opacity: 0.85;
+            transform: scale(1.05);
             cursor: grabbing;
+        }
+        .scene-object.dragging img {
+            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
         }
 
         .dh-corner {
@@ -237,7 +253,14 @@
         .intro-popup .intro-body {
             font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; line-height: 1.7; color: #1a3a5a;
         }
-        .intro-popup .intro-body .item-icon-large { font-size: 40px; display: block; margin-bottom: 4px; }
+        .intro-popup .intro-body .item-icon-large {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 4px;
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
         .intro-popup .intro-body .item-name { font-weight: 700; font-size: 16px; font-family: 'Orbitron', sans-serif; }
         .intro-popup .intro-body .item-desc { margin: 4px 0; }
         .intro-popup .intro-body .item-pos { opacity: 0.7; font-size: 12px; }
@@ -259,7 +282,11 @@
         }
         .intro-popup .placement-diagram .diagram-item {
             padding: 2px 8px; border-radius: 20px; background: rgba(255,255,255,0.2);
-            font-size: 20px; border: 1px solid rgba(255,255,255,0.2);
+            font-size: 28px;
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
         }
         .intro-popup .placement-diagram .diagram-arrow { font-size: 16px; opacity: 0.4; }
         .intro-popup .intro-actions {
@@ -286,25 +313,24 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* ===== STYLE SELECTOR IN POPUP ===== */
         .style-selector {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 10px 0;
         }
         .style-option {
-            padding: 10px 6px;
-            border-radius: 16px;
-            border: 2px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.08);
-            cursor: pointer;
-            text-align: center;
-            transition: 0.2s;
-            font-size: 11px;
-            color: #1a3a5a;
-            font-family: 'Orbitron', sans-serif;
+            padding: 8px 6px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.08); cursor: pointer; text-align: center;
+            transition: 0.2s; font-size: 11px; color: #1a3a5a; font-family: 'Orbitron', sans-serif;
         }
         .style-option:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
         .style-option.active { border-color: rgba(74,138,170,0.5); background: rgba(74,138,170,0.1); box-shadow: 0 0 20px rgba(74,138,170,0.04); }
-        .style-option .style-preview { font-size: 28px; display: block; margin-bottom: 2px; }
+        .style-option .style-preview {
+            font-size: 28px;
+            display: block;
+            margin: 0 auto 2px auto;
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
         .style-option .style-label { font-size: 9px; opacity: 0.6; }
         .style-option .style-count {
             font-size: 10px;
@@ -749,14 +775,14 @@
             <div class="lib-item" data-action="face"><i class="fas fa-user"></i><span class="lib-label">Face</span></div>
             <div class="lib-item" data-action="view"><i class="fas fa-eye"></i><span class="lib-label">Views</span></div>
             <div class="lib-divider"></div>
-            <!-- Each item type shows ONE button -->
-            <div class="lib-item" data-action="item" data-item="workbench"><i class="fas fa-tools"></i><span class="lib-label">Workbench</span></div>
-            <div class="lib-item" data-action="item" data-item="control"><i class="fas fa-sliders-h"></i><span class="lib-label">Control Panel</span></div>
-            <div class="lib-item" data-action="item" data-item="arm"><i class="fas fa-robot"></i><span class="lib-label">Robotic Arm</span></div>
-            <div class="lib-item" data-action="item" data-item="conveyor"><i class="fas fa-arrows-alt-h"></i><span class="lib-label">Conveyor Belt</span></div>
-            <div class="lib-item" data-action="item" data-item="fence"><i class="fas fa-shield-alt"></i><span class="lib-label">Safety Fence</span></div>
-            <div class="lib-item" data-action="item" data-item="sign"><i class="fas fa-exclamation-triangle"></i><span class="lib-label">Warning Sign</span></div>
-            <div class="lib-item" data-action="item" data-item="plant"><i class="fas fa-seedling"></i><span class="lib-label">Plant</span></div>
+            <!-- 7 items, each expands to 4 styles -->
+            <div class="lib-item lib-parent" data-item="workbench"><i class="fas fa-tools"></i><span class="lib-label">Workbench</span><span class="lib-arrow">▶</span></div>
+            <div class="lib-item lib-parent" data-item="control"><i class="fas fa-sliders-h"></i><span class="lib-label">Control Panel</span><span class="lib-arrow">▶</span></div>
+            <div class="lib-item lib-parent" data-item="arm"><i class="fas fa-robot"></i><span class="lib-label">Robotic Arm</span><span class="lib-arrow">▶</span></div>
+            <div class="lib-item lib-parent" data-item="conveyor"><i class="fas fa-arrows-alt-h"></i><span class="lib-label">Conveyor Belt</span><span class="lib-arrow">▶</span></div>
+            <div class="lib-item lib-parent" data-item="fence"><i class="fas fa-shield-alt"></i><span class="lib-label">Safety Fence</span><span class="lib-arrow">▶</span></div>
+            <div class="lib-item lib-parent" data-item="sign"><i class="fas fa-exclamation-triangle"></i><span class="lib-label">Warning Sign</span><span class="lib-arrow">▶</span></div>
+            <div class="lib-item lib-parent" data-item="plant"><i class="fas fa-seedling"></i><span class="lib-label">Plant</span><span class="lib-arrow">▶</span></div>
             <div class="lib-divider"></div>
             <div class="lib-item" data-action="save"><i class="fas fa-save"></i><span class="lib-label">Save</span></div>
             <div class="lib-divider"></div>
@@ -797,26 +823,19 @@
 <script>
 (function() {
     // ============================================================
-    // ITEM STYLES
+    // ITEM DATA - image mapping
     // ============================================================
-    const ITEM_STYLES = {
-        workbench: ['🔧', '🛠️', '📐', '⚡'],
-        control: ['🎛️', '📊', '📟', '🖥️'],
-        arm: ['🦾', '🤖', '⚙️', '🚀'],
-        conveyor: ['⚙️', '🔩', '📦', '🌀'],
-        fence: ['🛡️', '🚧', '⛔', '🔒'],
-        sign: ['⚠️', '☢️', '⚡', '📢'],
-        plant: ['🌿', '🌱', '🌴', '🌸']
+    const ITEM_IMAGES = {
+        workbench: '1.png',
+        control: '2.png',
+        arm: '3.png',
+        conveyor: '4.png',
+        fence: '5.png',
+        sign: '6.png',
+        plant: '7.png'
     };
-    const STYLE_NAMES = {
-        workbench: ['Standard', 'Heavy', 'Precision', 'Smart'],
-        control: ['Standard', 'Digital', 'Vintage', 'Touch'],
-        arm: ['Standard', 'Humanoid', 'Industrial', 'Advanced'],
-        conveyor: ['Standard', 'Heavy', 'Package', 'Curved'],
-        fence: ['Standard', 'Heavy', 'Red', 'Locked'],
-        sign: ['Standard', 'Hazard', 'Electric', 'Notice'],
-        plant: ['Fern', 'Seedling', 'Palm', 'Flower']
-    };
+
+    const ITEM_KEYS = ['workbench','control','arm','conveyor','fence','sign','plant'];
     const ITEM_LABELS = {
         workbench: 'Workbench',
         control: 'Control Panel',
@@ -827,14 +846,18 @@
         plant: 'Plant'
     };
 
-    const MAX_PER_STYLE = 5;
-    const ITEM_KEYS = ['workbench','control','arm','conveyor','fence','sign','plant'];
+    // Each item has 4 style variants with different images
+    // Using numbers 1-4 as style variants (different angles/colors)
+    // For now, using the same image but with different style labels
+    const STYLE_SUFFIXES = ['', ' (V2)', ' (V3)', ' (V4)'];
 
-    // Count per style: key = "item-variant" e.g. "workbench-0"
+    const MAX_PER_STYLE = 5;
     let styleCounts = {};
     let itemPositions = {};
     let dragData = null;
     let pendingItem = null;
+    let pendingVariant = null;
+    let expandedItem = null; // currently expanded parent in library
 
     ITEM_KEYS.forEach(key => {
         for (let i = 0; i < 4; i++) {
@@ -913,72 +936,68 @@
         return itemKey + '-' + variantIndex;
     }
 
-    function getIcon(itemKey, variantIndex) {
-        const styles = ITEM_STYLES[itemKey];
-        if (!styles) return '📦';
-        return styles[variantIndex] || '📦';
+    function getImagePath(itemKey) {
+        return ITEM_IMAGES[itemKey] || '1.png';
     }
 
     function getStyleLabel(itemKey, variantIndex) {
-        const names = STYLE_NAMES[itemKey];
-        if (!names) return 'Style ' + (variantIndex + 1);
-        return names[variantIndex] || 'Style ' + (variantIndex + 1);
+        return 'Style ' + (variantIndex + 1);
     }
 
     // ===== ITEM INFO =====
     const ITEM_INFO = {
         workbench: {
-            icon: '🔧', name: 'Workbench',
+            icon: '1.png', name: 'Workbench',
             desc: 'Your main assembly station. This is where you will perform assembly, inspection, and testing tasks.',
             pos: 'Place it FIRST — bottom-left area, as the foundation of your workspace.',
             tip: 'Start here! Everything else builds around this.',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+            diagram: '1.png → 2.png → 3.png → 4.png → 5.png → 6.png → 7.png'
         },
         control: {
-            icon: '🎛️', name: 'Control Panel',
+            icon: '2.png', name: 'Control Panel',
             desc: 'The command center for your robotic system. Use it to monitor and control all operations.',
             pos: 'Place it after the Workbench — center area, right next to it.',
             tip: 'This is your main interface — keep it close!',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+            diagram: '1.png → 2.png → 3.png → 4.png → 5.png → 6.png → 7.png'
         },
         arm: {
-            icon: '🦾', name: 'Robotic Arm',
+            icon: '3.png', name: 'Robotic Arm',
             desc: 'The heart of your cobot system! Performs precise tasks like picking, placing, and assembling.',
             pos: 'Place it after the Control Panel — center-right area.',
             tip: 'This is the most important part of your cobot!',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+            diagram: '1.png → 2.png → 3.png → 4.png → 5.png → 6.png → 7.png'
         },
         conveyor: {
-            icon: '⚙️', name: 'Conveyor Belt',
+            icon: '4.png', name: 'Conveyor Belt',
             desc: 'Moves materials through your workspace. Automates the flow of parts and products.',
             pos: 'Place it after the Robotic Arm — right side, extending outward.',
             tip: 'Think about the flow — materials come in, go out!',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+            diagram: '1.png → 2.png → 3.png → 4.png → 5.png → 6.png → 7.png'
         },
         fence: {
-            icon: '🛡️', name: 'Safety Fence',
+            icon: '5.png', name: 'Safety Fence',
             desc: 'Keeps workers safe from moving machinery. Defines the work area boundary.',
             pos: 'Place it after the Conveyor Belt — surrounding the work zone.',
             tip: 'Safety first! This is mandatory in any real factory.',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+            diagram: '1.png → 2.png → 3.png → 4.png → 5.png → 6.png → 7.png'
         },
         sign: {
-            icon: '⚠️', name: 'Warning Sign',
+            icon: '6.png', name: 'Warning Sign',
             desc: 'Reminds everyone that this is a work zone. Safety awareness is key!',
             pos: 'Place it after the Safety Fence — front-left corner, highly visible.',
             tip: 'Place it where everyone can see it!',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+            diagram: '1.png → 2.png → 3.png → 4.png → 5.png → 6.png → 7.png'
         },
         plant: {
-            icon: '🌿', name: 'Plant',
+            icon: '7.png', name: 'Plant',
             desc: 'Adds some greenery to make the industrial environment feel more welcoming and less stressful.',
             pos: 'Place it anywhere you like! — corner or near the entrance.',
             tip: 'A little green goes a long way!',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+            diagram: '1.png → 2.png → 3.png → 4.png → 5.png → 6.png → 7.png'
         }
     };
 
-    function showItemIntro(itemKey) {
+    function showItemIntro(itemKey, variantIndex) {
         if (!state.faceSelected) {
             showToast('Please select Gender & Face first', 2000);
             return;
@@ -987,19 +1006,21 @@
         if (!info) return;
 
         pendingItem = itemKey;
+        pendingVariant = variantIndex;
         introFaceIcon.textContent = getCurrentFaceEmoji() || '🧑';
-        introItemIcon.textContent = info.icon;
-        introItemName.textContent = info.name;
+        introItemIcon.src = getImagePath(itemKey);
+        introItemIcon.style.display = 'block';
+        introItemName.textContent = info.name + ' (' + getStyleLabel(itemKey, variantIndex) + ')';
         introItemDesc.textContent = info.desc;
         introItemPos.textContent = info.pos;
         introItemTip.textContent = info.tip;
 
         const items = info.diagram.split(' → ');
-        introDiagramRow.innerHTML = items.map((icon, idx) => {
+        introDiagramRow.innerHTML = items.map((img, idx) => {
             if (idx === items.length - 1) {
-                return `<span class="diagram-item">${icon}</span>`;
+                return `<img class="diagram-item" src="${img}" alt="item">`;
             }
-            return `<span class="diagram-item">${icon}</span><span class="diagram-arrow">→</span>`;
+            return `<img class="diagram-item" src="${img}" alt="item"><span class="diagram-arrow">→</span>`;
         }).join('');
 
         introOverlay.classList.add('show');
@@ -1008,65 +1029,20 @@
     function hideItemIntro() {
         introOverlay.classList.remove('show');
         pendingItem = null;
+        pendingVariant = null;
     }
 
-    // ===== Style selector popup (shows 4 styles with independent counts) =====
-    function renderStyleSelector(itemKey) {
-        const label = ITEM_LABELS[itemKey] || itemKey;
-        const styles = ITEM_STYLES[itemKey] || ['📦', '📦', '📦', '📦'];
-        const names = STYLE_NAMES[itemKey] || ['1', '2', '3', '4'];
-
-        let styleHtml = `<div class="style-selector-title">Choose style (each up to ${MAX_PER_STYLE}):</div><div class="style-selector">`;
-        for (let i = 0; i < 4; i++) {
-            const styleKey = itemKey + '-' + i;
-            const count = styleCounts[styleKey] || 0;
-            const icon = styles[i];
-            const name = names[i];
-            styleHtml += `
-                <div class="style-option" data-variant="${i}" data-item="${itemKey}">
-                    <span class="style-preview">${icon}</span>
-                    <span class="style-label">${name}</span>
-                    <span class="style-count">${count} / ${MAX_PER_STYLE}</span>
-                </div>
-            `;
-        }
-        styleHtml += `</div>`;
-
-        const html = `
-            <button class="close-btn" id="popupClose"><i class="fas fa-times"></i> Close</button>
-            <h2><i class="fas fa-plus-circle"></i> ${label}</h2>
-            ${styleHtml}
-            <div style="text-align:center;margin-top:12px;color:#4a7a9a;font-size:12px;">Click a style above to add/remove items</div>
-        `;
-        renderPopup(html);
-
-        document.querySelectorAll('.style-option').forEach(el => {
-            el.addEventListener('click', function() {
-                const item = this.dataset.item;
-                const variant = parseInt(this.dataset.variant);
-                renderStyleCounter(item, variant);
-            });
-        });
-
-        document.getElementById('popupClose')?.addEventListener('click', function() {
-            clearPopup();
-            renderScene();
-            updateChatFace();
-        });
-    }
-
-    // ===== Counter for a specific style =====
-    function renderStyleCounter(itemKey, variantIndex) {
-        const styleKey = itemKey + '-' + variantIndex;
+    // ===== Counter popup for a specific style =====
+    function renderCounterPopup(itemKey, variantIndex) {
+        const styleKey = getStyleKey(itemKey, variantIndex);
         const current = styleCounts[styleKey] || 0;
-        const icon = getIcon(itemKey, variantIndex);
-        const styleName = getStyleLabel(itemKey, variantIndex);
+        const label = getStyleLabel(itemKey, variantIndex);
         const itemLabel = ITEM_LABELS[itemKey] || itemKey;
 
         const html = `
             <button class="close-btn" id="popupClose"><i class="fas fa-times"></i> Close</button>
-            <h2><i class="fas fa-plus-circle"></i> ${itemLabel} - ${styleName}</h2>
-            <div class="counter-label">${icon}  How many ${styleName} ${itemLabel}? (max ${MAX_PER_STYLE})</div>
+            <h2><i class="fas fa-plus-circle"></i> ${itemLabel} - ${label}</h2>
+            <div class="counter-label">How many ${label} ${itemLabel} do you want? (max ${MAX_PER_STYLE})</div>
             <div class="counter-control">
                 <button class="counter-btn" id="counterDec" ${current <= 0 ? 'disabled' : ''}>−</button>
                 <span class="counter-num" id="counterNum">${current}</span>
@@ -1076,10 +1052,7 @@
             <div style="text-align:center;margin-top:12px;color:#4a7a9a;font-size:12px;">💡 Drag items after placing to reposition them</div>
             <div style="display:flex;justify-content:center;margin-top:12px;gap:12px;">
                 <button class="crystal-btn" id="addToSceneBtn" style="width:auto;padding:8px 24px;font-size:12px;background:rgba(74,138,170,0.15);border-color:rgba(74,138,170,0.3);">
-                    Update Scene
-                </button>
-                <button class="crystal-btn" id="backToStylesBtn" style="width:auto;padding:8px 24px;font-size:12px;background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.3);">
-                    ← Back to Styles
+                    Add to Scene
                 </button>
             </div>
         `;
@@ -1091,7 +1064,7 @@
                 const id = styleKey + '-' + idx;
                 delete itemPositions[id];
                 styleCounts[styleKey]--;
-                renderStyleCounter(itemKey, variantIndex);
+                renderCounterPopup(itemKey, variantIndex);
                 renderScene();
                 updateLibraryStatus();
             }
@@ -1105,10 +1078,10 @@
                 const pos = positions[idx] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
                 itemPositions[id] = pos;
                 styleCounts[styleKey]++;
-                renderStyleCounter(itemKey, variantIndex);
+                renderCounterPopup(itemKey, variantIndex);
                 renderScene();
                 updateLibraryStatus();
-                showToast(`Added ${styleName} ${itemLabel}`, 1200);
+                showToast(`Added ${getStyleLabel(itemKey, variantIndex)} ${ITEM_LABELS[itemKey]}`, 1200);
             }
         });
 
@@ -1125,11 +1098,7 @@
             renderScene();
             updateLibraryStatus();
             clearPopup();
-            showToast(`${count} ${styleName} ${itemLabel} added to scene!`, 1500);
-        });
-
-        document.getElementById('backToStylesBtn').addEventListener('click', function() {
-            renderStyleSelector(itemKey);
+            showToast(`${count} ${getStyleLabel(itemKey, variantIndex)} added to scene!`, 1500);
         });
 
         document.getElementById('popupClose').addEventListener('click', function() {
@@ -1177,7 +1146,7 @@
             for (let v = 0; v < 4; v++) {
                 const styleKey = key + '-' + v;
                 const count = styleCounts[styleKey] || 0;
-                const icon = getIcon(key, v);
+                const imgPath = getImagePath(key);
                 for (let i = 0; i < count; i++) {
                     const id = styleKey + '-' + i;
                     let pos = itemPositions[id];
@@ -1187,8 +1156,8 @@
                         itemPositions[id] = pos;
                     }
                     html += `<div class="scene-object" data-id="${id}" data-key="${key}" data-variant="${v}" data-index="${i}" 
-                              style="left:${pos.left}; bottom:${pos.bottom}; font-size:40px; z-index:2; cursor:grab;">
-                        ${icon}
+                              style="left:${pos.left}; bottom:${pos.bottom}; width:50px; height:50px;">
+                        <img src="${imgPath}" alt="${key}">
                     </div>`;
                 }
             }
@@ -1293,12 +1262,12 @@
     }
 
     function updateLibraryStatus() {
-        // Update counts on all item buttons
-        document.querySelectorAll('.lib-item[data-action="item"]').forEach(el => {
+        // For each parent item, count total items across all styles
+        document.querySelectorAll('.lib-parent').forEach(el => {
             const item = el.dataset.item;
             let total = 0;
-            for (let i = 0; i < 4; i++) {
-                total += styleCounts[item + '-' + i] || 0;
+            for (let v = 0; v < 4; v++) {
+                total += styleCounts[item + '-' + v] || 0;
             }
             let check = el.querySelector('.placed-check');
             if (total > 0) {
@@ -1312,6 +1281,74 @@
                 if (check) check.remove();
             }
         });
+    }
+
+    // ===== Library expand/collapse =====
+    function toggleLibraryExpand(itemKey) {
+        const parentEl = document.querySelector(`.lib-parent[data-item="${itemKey}"]`);
+        if (!parentEl) return;
+
+        // Remove all existing style children
+        const container = parentEl.parentElement;
+        const siblings = container.querySelectorAll(`.lib-child[data-parent="${itemKey}"]`);
+        siblings.forEach(el => el.remove());
+
+        if (expandedItem === itemKey) {
+            // Collapse
+            expandedItem = null;
+            parentEl.querySelector('.lib-arrow').textContent = '▶';
+            return;
+        }
+
+        // Collapse any other open
+        if (expandedItem) {
+            const otherParent = document.querySelector(`.lib-parent[data-item="${expandedItem}"]`);
+            if (otherParent) {
+                const otherSiblings = container.querySelectorAll(`.lib-child[data-parent="${expandedItem}"]`);
+                otherSiblings.forEach(el => el.remove());
+                otherParent.querySelector('.lib-arrow').textContent = '▶';
+            }
+        }
+
+        expandedItem = itemKey;
+        parentEl.querySelector('.lib-arrow').textContent = '▼';
+
+        // Insert 4 style options after this item
+        const styleNames = ['Style 1', 'Style 2', 'Style 3', 'Style 4'];
+        for (let i = 0; i < 4; i++) {
+            const child = document.createElement('div');
+            child.className = 'lib-item lib-child';
+            child.dataset.parent = itemKey;
+            child.dataset.action = 'counter';
+            child.dataset.item = itemKey;
+            child.dataset.variant = i;
+            child.style.paddingLeft = '36px';
+            child.style.fontSize = '11px';
+            child.style.background = 'rgba(255,255,255,0.04)';
+
+            const img = document.createElement('img');
+            img.src = getImagePath(itemKey);
+            img.style.width = '20px';
+            img.style.height = '20px';
+            img.style.objectFit = 'contain';
+            img.style.borderRadius = '4px';
+
+            const label = document.createElement('span');
+            label.className = 'lib-label';
+            label.textContent = styleNames[i];
+
+            const countSpan = document.createElement('span');
+            countSpan.className = 'placed-check';
+            const count = styleCounts[itemKey + '-' + i] || 0;
+            if (count > 0) countSpan.textContent = count + '✓';
+
+            child.appendChild(img);
+            child.appendChild(label);
+            child.appendChild(countSpan);
+
+            // Insert after parent
+            parentEl.parentNode.insertBefore(child, parentEl.nextSibling);
+        }
     }
 
     // ===== Popup =====
@@ -1411,11 +1448,11 @@
             for (let v = 0; v < 4; v++) {
                 const styleKey = key + '-' + v;
                 const count = styleCounts[styleKey] || 0;
-                const icon = getIcon(key, v);
+                const imgPath = getImagePath(key);
                 for (let i = 0; i < count; i++) {
                     const id = styleKey + '-' + i;
                     const pos = itemPositions[id] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
-                    previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; font-size:32px; z-index:2; pointer-events:none;">${icon}</div>`;
+                    previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; width:32px; height:32px; z-index:2; pointer-events:none;"><img src="${imgPath}" style="width:100%;height:100%;object-fit:contain;"></div>`;
                 }
             }
         });
@@ -1558,20 +1595,20 @@
     function getSmartReply(msg) {
         const q = msg.toLowerCase().trim();
         if (q.match(/^(hi|hello|hey|greetings)/i)) return "Hello! 👋 I'm your Helix Guide assistant. How can I help you?";
-        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant' in the Library, then choose a style (1-4). Each style has its own count up to 5!";
-        if (q.match(/how to place|how do i place|how can i place|add object/i)) return "🔧 Click any item in the Library (e.g. 'Workbench'), then choose a style (1-4). Each style has its own counter. You can mix different styles in the scene!";
-        if (q.match(/style|variant|different/i)) return "🎨 Each item has 4 different styles! Click an item, then pick a style. Each style has its own count and can be placed together with other styles!";
+        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant' in the Library, then choose a style from 1-4. Each style has its own count!";
+        if (q.match(/how to place|how do i place|how can i place|add object/i)) return "🔧 Click any item in the Library (Workbench, Control Panel, etc.), then click a style (1-4) and use + to add it. Each style has its own count!";
+        if (q.match(/style|variant|different/i)) return "🎨 Each item has 4 different styles! Click the parent item in the Library to expand, then choose a style to add.";
         if (q.match(/drag|move|reposition/i)) return "✋ You can drag any item in the scene by clicking and holding it, then moving it to a new position!";
-        if (q.match(/workbench/i)) return "🛠️ Workbench has 4 styles: Standard (1), Heavy (2), Precision (3), Smart (4). Each style can have up to 5 items!";
-        if (q.match(/control panel/i)) return "🎛️ Control Panel has 4 styles: Standard (1), Digital (2), Vintage (3), Touch (4). Each style can have up to 5 items!";
-        if (q.match(/robotic arm|arm/i)) return "🦾 Robotic Arm has 4 styles: Standard (1), Humanoid (2), Industrial (3), Advanced (4). Each style can have up to 5 items!";
-        if (q.match(/conveyor|belt/i)) return "⚙️ Conveyor Belt has 4 styles: Standard (1), Heavy (2), Package (3), Curved (4). Each style can have up to 5 items!";
-        if (q.match(/fence|safety/i)) return "🛡️ Safety Fence has 4 styles: Standard (1), Heavy (2), Red (3), Locked (4). Each style can have up to 5 items!";
-        if (q.match(/sign|warning/i)) return "⚠️ Warning Sign has 4 styles: Standard (1), Hazard (2), Electric (3), Notice (4). Each style can have up to 5 items!";
+        if (q.match(/workbench/i)) return "🛠️ Workbench has 4 styles. Click Workbench in the Library to expand, then choose a style.";
+        if (q.match(/control panel/i)) return "🎛️ Control Panel has 4 styles. Click Control Panel in the Library to expand.";
+        if (q.match(/robotic arm|arm/i)) return "🦾 Robotic Arm has 4 styles. Click Robotic Arm in the Library to expand.";
+        if (q.match(/conveyor|belt/i)) return "⚙️ Conveyor Belt has 4 styles. Click Conveyor Belt in the Library to expand.";
+        if (q.match(/fence|safety/i)) return "🛡️ Safety Fence has 4 styles. Click Safety Fence in the Library to expand.";
+        if (q.match(/sign|warning/i)) return "⚠️ Warning Sign has 4 styles. Click Warning Sign in the Library to expand.";
         if (q.match(/next|what do i do|what should i do|guide me|what now/i)) {
             const total = Object.values(styleCounts).reduce((a, b) => a + b, 0);
-            if (total === 0) return "📋 First, customize your avatar (Gender → Face). Then click any item in the Library to choose a style and start building!";
-            return `📋 You've placed ${total} item(s). Try adding different styles of the same item — they can all appear together! When done, click 'Save' to get a private code.`;
+            if (total === 0) return "📋 First, customize your avatar (Gender → Face). Then click any item in the Library to expand it, choose a style, and add items!";
+            return `📋 You've placed ${total} item(s). Try different styles of the same item! When done, click 'Save' to get a private code.`;
         }
         if (q.match(/save|code|saved|private code/i)) {
             const total = Object.values(styleCounts).reduce((a, b) => a + b, 0);
@@ -1583,9 +1620,9 @@
         if (q.match(/gender|male|female|face|avatar|appearance/i)) return "👤 Go to Gender → select Male/Female → click a face to select it instantly!";
         if (q.match(/thank|thanks|thx|appreciate/i)) return "You're welcome! 😊 Keep building!";
         if (q.match(/help|what can you do|capabilities/i)) {
-            return "🤖 I can help with:\n• Customizing your avatar (Gender → click a face!)\n• Each item has 4 styles, each with its own counter (max 5 per style)!\n• Mix different styles of the same item in the scene\n• Dragging items anywhere\n• Saving with a code\n• Switching views\n• Resetting workspace\n\nTry it out! 🚀";
+            return "🤖 I can help with:\n• Customizing your avatar (Gender → click a face!)\n• Click items in Library to expand and choose styles\n• Each style has its own counter (max 5 per style)!\n• Dragging items anywhere\n• Saving with a code\n• Switching views\n• Resetting workspace\n\nTry it out! 🚀";
         }
-        return "🤔 Try customizing your avatar first. Then click any item in the Library to choose a style (1-4) and start building!";
+        return "🤔 Try clicking an item in the Library to expand it, then choose a style (1-4) to add!";
     }
 
     function addChatMessage(text, sender) {
@@ -1650,19 +1687,19 @@
         showToast('🔄 All objects removed. Ready to rebuild!', 2000);
     }
 
-    function handleAction(action, item) {
+    function handleAction(action, item, variant) {
         switch(action) {
             case 'info': renderInfoBoard(); break;
             case 'gender': renderGender(); break;
             case 'face': renderFace(); break;
             case 'view': renderView(); break;
-            case 'item':
-                if(item) {
+            case 'counter':
+                if(item !== undefined && variant !== undefined) {
                     if (!state.faceSelected) {
                         showToast('Please select Gender & Face first', 2000);
                         return;
                     }
-                    showItemIntro(item);
+                    showItemIntro(item, parseInt(variant));
                 }
                 break;
             case 'reset': resetAll(); break;
@@ -1682,10 +1719,11 @@
 
     introCancel.addEventListener('click', hideItemIntro);
     introConfirm.addEventListener('click', function() {
-        if (pendingItem !== null) {
+        if (pendingItem !== null && pendingVariant !== null) {
             const itemKey = pendingItem;
+            const variantIndex = pendingVariant;
             hideItemIntro();
-            renderStyleSelector(itemKey);
+            renderCounterPopup(itemKey, variantIndex);
         }
     });
 
@@ -1700,12 +1738,16 @@
         state.selectedGender = null; state.selectedFace = null;
         state.faceSelected = false;
         state.currentView = 'first'; state.codeInput = []; state.savedCode = null;
+        expandedItem = null;
         enterMain();
         clearPopup();
         hideItemIntro();
         renderScene();
         updateLibraryStatus();
         updateChatFace();
+        // Rebuild library (remove expanded children)
+        document.querySelectorAll('.lib-child').forEach(el => el.remove());
+        document.querySelectorAll('.lib-arrow').forEach(el => el.textContent = '▶');
     });
 
     document.getElementById('btnEnterCode').addEventListener('click', function(e) {
@@ -1723,9 +1765,19 @@
     document.getElementById('library').addEventListener('click', function(e) {
         const item = e.target.closest('.lib-item');
         if (!item) return;
+
+        // Check if it's a parent (has data-item and no data-action)
+        if (item.dataset.item && !item.dataset.action && !item.dataset.variant) {
+            // It's a parent item - toggle expand
+            toggleLibraryExpand(item.dataset.item);
+            return;
+        }
+
+        // Child item (has action="counter")
         const action = item.dataset.action;
         const dataItem = item.dataset.item;
-        if (action) handleAction(action, dataItem);
+        const variant = item.dataset.variant;
+        if (action) handleAction(action, dataItem, variant);
     });
 
     document.getElementById('chatTrigger').addEventListener('click', function() { chatOverlay.classList.add('show'); });
