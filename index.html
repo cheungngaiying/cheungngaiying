@@ -178,120 +178,104 @@
         .chat-trigger:hover { background: rgba(255,255,255,0.4); border-color: rgba(255,255,255,0.6); }
         .chat-trigger .face-emoji { font-size: 24px; line-height: 1; }
 
-        /* ===== ITEM INTRO POPUP (centered in right panel) ===== */
+        /* ===== SCENE ===== */
+        .factory-scene {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('file:///D:/IDAT毕设/图1.png') center/cover no-repeat;
+            user-select: none;
+            overflow: hidden;
+        }
+        .scene-object {
+            position: absolute; font-size: 40px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.04));
+            pointer-events: auto; z-index: 2; cursor: grab;
+            padding: 4px; border-radius: 8px; touch-action: none;
+        }
+        .scene-object:hover { filter: drop-shadow(0 8px 20px rgba(0,0,0,0.08)); }
+        .scene-object.dragging {
+            z-index: 10; opacity: 0.85; transform: scale(1.05);
+            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
+            cursor: grabbing;
+        }
+
+        .dh-corner {
+            position: absolute; top: 16px; left: 20px; font-size: 56px; opacity: 0.85;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.03)); pointer-events: none;
+            transition: all 0.3s ease; z-index: 3;
+        }
+        .dh-back {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            font-size: 70px; opacity: 0.6; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.04));
+            pointer-events: none; z-index: 3; transition: all 0.3s ease;
+        }
+        .scene-label {
+            position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+            color: rgba(40,80,120,0.08); font-size: 11px; letter-spacing: 4px;
+            background: rgba(255,255,255,0.1); padding: 3px 16px; border-radius: 40px;
+            backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1);
+            font-family: 'Orbitron', sans-serif; z-index: 3;
+        }
+
         .intro-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 15;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-            padding: 40px;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 15; display: none; align-items: center; justify-content: center;
+            pointer-events: none; padding: 40px;
         }
         .intro-overlay.show { display: flex; }
         .intro-popup {
-            background: rgba(255,255,255,0.35);
-            backdrop-filter: blur(28px);
-            border: 2px solid rgba(255,255,255,0.5);
-            border-radius: 28px;
-            padding: 28px 32px;
-            max-width: 520px;
-            width: 100%;
-            max-height: 80%;
-            overflow-y: auto;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.06), 0 0 60px rgba(255,255,255,0.08);
-            color: #1a3a5a;
-            pointer-events: auto;
-            animation: fadeInBubble 0.35s ease;
+            background: rgba(255,255,255,0.35); backdrop-filter: blur(28px);
+            border: 2px solid rgba(255,255,255,0.5); border-radius: 28px;
+            padding: 28px 32px; max-width: 520px; width: 100%; max-height: 80%;
+            overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.06), 0 0 60px rgba(255,255,255,0.08);
+            color: #1a3a5a; pointer-events: auto; animation: fadeInBubble 0.35s ease;
         }
         .intro-popup .intro-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            font-family: 'Orbitron', sans-serif;
+            display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+            font-size: 18px; font-weight: 700; font-family: 'Orbitron', sans-serif;
         }
         .intro-popup .intro-header .face-icon { font-size: 36px; }
         .intro-popup .intro-body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            font-size: 13px;
-            line-height: 1.7;
-            color: #1a3a5a;
+            font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; line-height: 1.7; color: #1a3a5a;
         }
         .intro-popup .intro-body .item-icon-large { font-size: 40px; display: block; margin-bottom: 4px; }
         .intro-popup .intro-body .item-name { font-weight: 700; font-size: 16px; font-family: 'Orbitron', sans-serif; }
         .intro-popup .intro-body .item-desc { margin: 4px 0; }
         .intro-popup .intro-body .item-pos { opacity: 0.7; font-size: 12px; }
         .intro-popup .intro-body .item-tip { 
-            margin-top: 6px; 
-            padding: 4px 12px; 
-            background: rgba(74,138,170,0.12); 
-            border-radius: 30px; 
-            display: inline-block; 
-            font-size: 11px;
+            margin-top: 6px; padding: 4px 12px; background: rgba(74,138,170,0.12); 
+            border-radius: 30px; display: inline-block; font-size: 11px;
             border: 1px solid rgba(74,138,170,0.1);
         }
-        /* placement diagram */
         .intro-popup .placement-diagram {
-            margin: 12px 0 8px 0;
-            padding: 12px 16px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.3);
-            font-size: 13px;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 12px 0 8px 0; padding: 12px 16px; background: rgba(255,255,255,0.15);
+            border-radius: 16px; border: 1px solid rgba(255,255,255,0.3);
+            font-size: 13px; font-family: 'Segoe UI', system-ui, sans-serif;
         }
         .intro-popup .placement-diagram .diagram-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
+            display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
         }
         .intro-popup .placement-diagram .diagram-label {
-            font-size: 11px;
-            opacity: 0.6;
-            font-family: 'Orbitron', sans-serif;
+            font-size: 11px; opacity: 0.6; font-family: 'Orbitron', sans-serif;
         }
         .intro-popup .placement-diagram .diagram-item {
-            padding: 2px 8px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.2);
-            font-size: 20px;
-            border: 1px solid rgba(255,255,255,0.2);
+            padding: 2px 8px; border-radius: 20px; background: rgba(255,255,255,0.2);
+            font-size: 20px; border: 1px solid rgba(255,255,255,0.2);
         }
-        .intro-popup .placement-diagram .diagram-arrow {
-            font-size: 16px;
-            opacity: 0.4;
-        }
+        .intro-popup .placement-diagram .diagram-arrow { font-size: 16px; opacity: 0.4; }
         .intro-popup .intro-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 14px;
-            justify-content: flex-end;
+            display: flex; gap: 10px; margin-top: 14px; justify-content: flex-end;
         }
         .intro-popup .intro-actions button {
-            padding: 8px 20px;
-            border-radius: 40px;
-            border: 2px solid rgba(255,255,255,0.4);
-            background: rgba(255,255,255,0.15);
-            color: #1a3a5a;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            font-family: 'Orbitron', sans-serif;
-            backdrop-filter: blur(4px);
+            padding: 8px 20px; border-radius: 40px; border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.15); color: #1a3a5a; font-size: 12px;
+            font-weight: 600; cursor: pointer; transition: 0.2s;
+            font-family: 'Orbitron', sans-serif; backdrop-filter: blur(4px);
         }
         .intro-popup .intro-actions button:hover {
-            background: rgba(255,255,255,0.3);
-            border-color: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.6);
         }
         .intro-popup .intro-actions button.confirm-btn {
-            background: rgba(74,138,170,0.15);
-            border-color: rgba(74,138,170,0.3);
+            background: rgba(74,138,170,0.15); border-color: rgba(74,138,170,0.3);
         }
         .intro-popup .intro-actions button.confirm-btn:hover {
             background: rgba(74,138,170,0.25);
@@ -300,6 +284,24 @@
         @keyframes fadeInBubble {
             from { opacity: 0; transform: translateY(-10px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .style-selector {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 10px 0;
+        }
+        .style-option {
+            padding: 8px 6px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.08); cursor: pointer; text-align: center;
+            transition: 0.2s; font-size: 11px; color: #1a3a5a; font-family: 'Orbitron', sans-serif;
+        }
+        .style-option:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+        .style-option.active { border-color: rgba(74,138,170,0.5); background: rgba(74,138,170,0.1); box-shadow: 0 0 20px rgba(74,138,170,0.04); }
+        .style-option .style-preview { font-size: 28px; display: block; margin-bottom: 2px; }
+        .style-option .style-label { font-size: 9px; opacity: 0.6; }
+        .style-option .style-count {
+            font-size: 10px;
+            opacity: 0.5;
+            margin-top: 2px;
         }
 
         .library {
@@ -352,45 +354,6 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.04), inset 0 0 60px rgba(255,255,255,0.05);
             overflow: hidden;
             z-index: 1;
-        }
-        .factory-scene {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(200,220,240,0.3) 0%, rgba(160,190,215,0.2) 100%);
-            user-select: none;
-        }
-        .scene-object {
-            position: absolute; font-size: 40px;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.04));
-            pointer-events: auto;
-            z-index: 2;
-            cursor: grab;
-            padding: 4px;
-            border-radius: 8px;
-            touch-action: none;
-        }
-        .scene-object:active { cursor: grabbing; }
-        .scene-object.dragging {
-            z-index: 10;
-            opacity: 0.85;
-            transform: scale(1.05);
-            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
-        }
-        .dh-corner {
-            position: absolute; top: 16px; left: 20px; font-size: 56px; opacity: 0.85;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.03)); pointer-events: none;
-            transition: all 0.3s ease; z-index: 3;
-        }
-        .dh-back {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            font-size: 70px; opacity: 0.6; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.04));
-            pointer-events: none; z-index: 3; transition: all 0.3s ease;
-        }
-        .scene-label {
-            position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
-            color: rgba(40,80,120,0.08); font-size: 11px; letter-spacing: 4px;
-            background: rgba(255,255,255,0.1); padding: 3px 16px; border-radius: 40px;
-            backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1);
-            font-family: 'Orbitron', sans-serif; z-index: 3;
         }
 
         .popup-center {
@@ -445,6 +408,10 @@
         .counter-preview {
             text-align: center; font-size: 13px; color: #4a7a9a; margin-top: 8px;
             font-family: 'Orbitron', sans-serif;
+        }
+        .style-selector-title {
+            font-size: 12px; font-family: 'Orbitron', sans-serif; color: #4a7a9a;
+            margin: 12px 0 6px 0; text-align: center;
         }
 
         .toast-panel {
@@ -729,7 +696,6 @@
             <span><i class="fas fa-comment-dots"></i> Ask AI</span>
         </div>
 
-        <!-- ===== ITEM INTRO POPUP (centered) ===== -->
         <div class="intro-overlay" id="introOverlay">
             <div class="intro-popup" id="introPopup">
                 <div class="intro-header">
@@ -775,13 +741,41 @@
             <div class="lib-item" data-action="face"><i class="fas fa-user"></i><span class="lib-label">Face</span></div>
             <div class="lib-item" data-action="view"><i class="fas fa-eye"></i><span class="lib-label">Views</span></div>
             <div class="lib-divider"></div>
-            <div class="lib-item" data-action="counter" data-item="workbench"><i class="fas fa-tools"></i><span class="lib-label">Workbench</span></div>
-            <div class="lib-item" data-action="counter" data-item="control"><i class="fas fa-sliders-h"></i><span class="lib-label">Control Panel</span></div>
-            <div class="lib-item" data-action="counter" data-item="arm"><i class="fas fa-robot"></i><span class="lib-label">Robotic Arm</span></div>
-            <div class="lib-item" data-action="counter" data-item="conveyor"><i class="fas fa-arrows-alt-h"></i><span class="lib-label">Conveyor Belt</span></div>
-            <div class="lib-item" data-action="counter" data-item="fence"><i class="fas fa-shield-alt"></i><span class="lib-label">Safety Fence</span></div>
-            <div class="lib-item" data-action="counter" data-item="sign"><i class="fas fa-exclamation-triangle"></i><span class="lib-label">Warning Sign</span></div>
-            <div class="lib-item" data-action="counter" data-item="plant"><i class="fas fa-seedling"></i><span class="lib-label">Plant</span></div>
+            <!-- Each item type has 4 styles, each style independently countable -->
+            <div class="lib-item" data-action="counter" data-item="workbench" data-variant="0"><i class="fas fa-tools"></i><span class="lib-label">Workbench 1</span></div>
+            <div class="lib-item" data-action="counter" data-item="workbench" data-variant="1"><i class="fas fa-tools"></i><span class="lib-label">Workbench 2</span></div>
+            <div class="lib-item" data-action="counter" data-item="workbench" data-variant="2"><i class="fas fa-tools"></i><span class="lib-label">Workbench 3</span></div>
+            <div class="lib-item" data-action="counter" data-item="workbench" data-variant="3"><i class="fas fa-tools"></i><span class="lib-label">Workbench 4</span></div>
+            <div class="lib-divider"></div>
+            <div class="lib-item" data-action="counter" data-item="control" data-variant="0"><i class="fas fa-sliders-h"></i><span class="lib-label">Control 1</span></div>
+            <div class="lib-item" data-action="counter" data-item="control" data-variant="1"><i class="fas fa-sliders-h"></i><span class="lib-label">Control 2</span></div>
+            <div class="lib-item" data-action="counter" data-item="control" data-variant="2"><i class="fas fa-sliders-h"></i><span class="lib-label">Control 3</span></div>
+            <div class="lib-item" data-action="counter" data-item="control" data-variant="3"><i class="fas fa-sliders-h"></i><span class="lib-label">Control 4</span></div>
+            <div class="lib-divider"></div>
+            <div class="lib-item" data-action="counter" data-item="arm" data-variant="0"><i class="fas fa-robot"></i><span class="lib-label">Arm 1</span></div>
+            <div class="lib-item" data-action="counter" data-item="arm" data-variant="1"><i class="fas fa-robot"></i><span class="lib-label">Arm 2</span></div>
+            <div class="lib-item" data-action="counter" data-item="arm" data-variant="2"><i class="fas fa-robot"></i><span class="lib-label">Arm 3</span></div>
+            <div class="lib-item" data-action="counter" data-item="arm" data-variant="3"><i class="fas fa-robot"></i><span class="lib-label">Arm 4</span></div>
+            <div class="lib-divider"></div>
+            <div class="lib-item" data-action="counter" data-item="conveyor" data-variant="0"><i class="fas fa-arrows-alt-h"></i><span class="lib-label">Conveyor 1</span></div>
+            <div class="lib-item" data-action="counter" data-item="conveyor" data-variant="1"><i class="fas fa-arrows-alt-h"></i><span class="lib-label">Conveyor 2</span></div>
+            <div class="lib-item" data-action="counter" data-item="conveyor" data-variant="2"><i class="fas fa-arrows-alt-h"></i><span class="lib-label">Conveyor 3</span></div>
+            <div class="lib-item" data-action="counter" data-item="conveyor" data-variant="3"><i class="fas fa-arrows-alt-h"></i><span class="lib-label">Conveyor 4</span></div>
+            <div class="lib-divider"></div>
+            <div class="lib-item" data-action="counter" data-item="fence" data-variant="0"><i class="fas fa-shield-alt"></i><span class="lib-label">Fence 1</span></div>
+            <div class="lib-item" data-action="counter" data-item="fence" data-variant="1"><i class="fas fa-shield-alt"></i><span class="lib-label">Fence 2</span></div>
+            <div class="lib-item" data-action="counter" data-item="fence" data-variant="2"><i class="fas fa-shield-alt"></i><span class="lib-label">Fence 3</span></div>
+            <div class="lib-item" data-action="counter" data-item="fence" data-variant="3"><i class="fas fa-shield-alt"></i><span class="lib-label">Fence 4</span></div>
+            <div class="lib-divider"></div>
+            <div class="lib-item" data-action="counter" data-item="sign" data-variant="0"><i class="fas fa-exclamation-triangle"></i><span class="lib-label">Sign 1</span></div>
+            <div class="lib-item" data-action="counter" data-item="sign" data-variant="1"><i class="fas fa-exclamation-triangle"></i><span class="lib-label">Sign 2</span></div>
+            <div class="lib-item" data-action="counter" data-item="sign" data-variant="2"><i class="fas fa-exclamation-triangle"></i><span class="lib-label">Sign 3</span></div>
+            <div class="lib-item" data-action="counter" data-item="sign" data-variant="3"><i class="fas fa-exclamation-triangle"></i><span class="lib-label">Sign 4</span></div>
+            <div class="lib-divider"></div>
+            <div class="lib-item" data-action="counter" data-item="plant" data-variant="0"><i class="fas fa-seedling"></i><span class="lib-label">Plant 1</span></div>
+            <div class="lib-item" data-action="counter" data-item="plant" data-variant="1"><i class="fas fa-seedling"></i><span class="lib-label">Plant 2</span></div>
+            <div class="lib-item" data-action="counter" data-item="plant" data-variant="2"><i class="fas fa-seedling"></i><span class="lib-label">Plant 3</span></div>
+            <div class="lib-item" data-action="counter" data-item="plant" data-variant="3"><i class="fas fa-seedling"></i><span class="lib-label">Plant 4</span></div>
             <div class="lib-divider"></div>
             <div class="lib-item" data-action="save"><i class="fas fa-save"></i><span class="lib-label">Save</span></div>
             <div class="lib-divider"></div>
@@ -822,84 +816,42 @@
 <script>
 (function() {
     // ============================================================
-    // Item information data
+    // ITEM VARIANTS - each style has its own icon
     // ============================================================
-    const ITEM_INFO = {
-        workbench: {
-            icon: '🔧',
-            name: 'Workbench',
-            desc: 'Your main assembly station. This is where you will perform assembly, inspection, and testing tasks.',
-            pos: 'Place it FIRST — bottom-left area, as the foundation of your workspace.',
-            tip: 'Start here! Everything else builds around this.',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
-        },
-        control: {
-            icon: '🎛️',
-            name: 'Control Panel',
-            desc: 'The command center for your robotic system. Use it to monitor and control all operations.',
-            pos: 'Place it after the Workbench — center area, right next to it.',
-            tip: 'This is your main interface — keep it close!',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
-        },
-        arm: {
-            icon: '🦾',
-            name: 'Robotic Arm',
-            desc: 'The heart of your cobot system! Performs precise tasks like picking, placing, and assembling.',
-            pos: 'Place it after the Control Panel — center-right area.',
-            tip: 'This is the most important part of your cobot!',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
-        },
-        conveyor: {
-            icon: '⚙️',
-            name: 'Conveyor Belt',
-            desc: 'Moves materials through your workspace. Automates the flow of parts and products.',
-            pos: 'Place it after the Robotic Arm — right side, extending outward.',
-            tip: 'Think about the flow — materials come in, go out!',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
-        },
-        fence: {
-            icon: '🛡️',
-            name: 'Safety Fence',
-            desc: 'Keeps workers safe from moving machinery. Defines the work area boundary.',
-            pos: 'Place it after the Conveyor Belt — surrounding the work zone.',
-            tip: 'Safety first! This is mandatory in any real factory.',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
-        },
-        sign: {
-            icon: '⚠️',
-            name: 'Warning Sign',
-            desc: 'Reminds everyone that this is a work zone. Safety awareness is key!',
-            pos: 'Place it after the Safety Fence — front-left corner, highly visible.',
-            tip: 'Place it where everyone can see it!',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
-        },
-        plant: {
-            icon: '🌿',
-            name: 'Plant',
-            desc: 'Adds some greenery to make the industrial environment feel more welcoming and less stressful.',
-            pos: 'Place it anywhere you like! — corner or near the entrance.',
-            tip: 'A little green goes a long way!',
-            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
-        }
+    const ITEM_STYLES = {
+        workbench: ['🔧', '🛠️', '📐', '⚡'],
+        control: ['🎛️', '📊', '📟', '🖥️'],
+        arm: ['🦾', '🤖', '⚙️', '🚀'],
+        conveyor: ['⚙️', '🔩', '📦', '🌀'],
+        fence: ['🛡️', '🚧', '⛔', '🔒'],
+        sign: ['⚠️', '☢️', '⚡', '📢'],
+        plant: ['🌿', '🌱', '🌴', '🌸']
+    };
+    const STYLE_NAMES = {
+        workbench: ['Standard', 'Heavy', 'Precision', 'Smart'],
+        control: ['Standard', 'Digital', 'Vintage', 'Touch'],
+        arm: ['Standard', 'Humanoid', 'Industrial', 'Advanced'],
+        conveyor: ['Standard', 'Heavy', 'Package', 'Curved'],
+        fence: ['Standard', 'Heavy', 'Red', 'Locked'],
+        sign: ['Standard', 'Hazard', 'Electric', 'Notice'],
+        plant: ['Fern', 'Seedling', 'Palm', 'Flower']
     };
 
-    const MAX_PER_ITEM = 5;
-    const ICON_MAP = {
-        workbench:'🔧', control:'🎛️', arm:'🦾', conveyor:'⚙️',
-        fence:'🛡️', sign:'⚠️', plant:'🌿'
-    };
-    const LABELS = {
-        workbench:'Workbench', control:'Control Panel', arm:'Robotic Arm',
-        conveyor:'Conveyor Belt', fence:'Safety Fence', sign:'Warning Sign', plant:'Plant'
-    };
+    const MAX_PER_STYLE = 5;
     const ITEM_KEYS = ['workbench','control','arm','conveyor','fence','sign','plant'];
 
-    let itemCounts = {};
+    // Count per style: key = "item-variant" e.g. "workbench-0"
+    let styleCounts = {};
     let itemPositions = {};
     let dragData = null;
     let pendingItem = null;
+    let pendingVariant = null;
 
-    ITEM_KEYS.forEach(key => { itemCounts[key] = 0; });
+    ITEM_KEYS.forEach(key => {
+        for (let i = 0; i < 4; i++) {
+            styleCounts[key + '-' + i] = 0;
+        }
+    });
 
     const state = {
         currentView: 'first',
@@ -953,9 +905,9 @@
     }
 
     function getCurrentFaceEmoji() {
-        if (state.selectedFace === null || !state.selectedGender) return '🧑';
+        if (state.selectedFace === null || !state.selectedGender) return null;
         const arr = state.selectedGender === 'male' ? state.maleFaces : state.femaleFaces;
-        return arr[state.selectedFace] || '🧑';
+        return arr[state.selectedFace] || null;
     }
 
     function updateChatFace() {
@@ -968,25 +920,92 @@
         }
     }
 
-    // ===== Show item introduction popup =====
-    function showItemIntro(itemKey) {
-        if (state.selectedGender === null || state.selectedFace === null) {
+    function getStyleKey(itemKey, variantIndex) {
+        return itemKey + '-' + variantIndex;
+    }
+
+    function getIcon(itemKey, variantIndex) {
+        const styles = ITEM_STYLES[itemKey];
+        if (!styles) return '📦';
+        return styles[variantIndex] || '📦';
+    }
+
+    function getStyleLabel(itemKey, variantIndex) {
+        const names = STYLE_NAMES[itemKey];
+        if (!names) return 'Style ' + (variantIndex + 1);
+        return names[variantIndex] || 'Style ' + (variantIndex + 1);
+    }
+
+    // ===== ITEM INFO =====
+    const ITEM_INFO = {
+        workbench: {
+            icon: '🔧', name: 'Workbench',
+            desc: 'Your main assembly station. This is where you will perform assembly, inspection, and testing tasks.',
+            pos: 'Place it FIRST — bottom-left area, as the foundation of your workspace.',
+            tip: 'Start here! Everything else builds around this.',
+            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+        },
+        control: {
+            icon: '🎛️', name: 'Control Panel',
+            desc: 'The command center for your robotic system. Use it to monitor and control all operations.',
+            pos: 'Place it after the Workbench — center area, right next to it.',
+            tip: 'This is your main interface — keep it close!',
+            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+        },
+        arm: {
+            icon: '🦾', name: 'Robotic Arm',
+            desc: 'The heart of your cobot system! Performs precise tasks like picking, placing, and assembling.',
+            pos: 'Place it after the Control Panel — center-right area.',
+            tip: 'This is the most important part of your cobot!',
+            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+        },
+        conveyor: {
+            icon: '⚙️', name: 'Conveyor Belt',
+            desc: 'Moves materials through your workspace. Automates the flow of parts and products.',
+            pos: 'Place it after the Robotic Arm — right side, extending outward.',
+            tip: 'Think about the flow — materials come in, go out!',
+            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+        },
+        fence: {
+            icon: '🛡️', name: 'Safety Fence',
+            desc: 'Keeps workers safe from moving machinery. Defines the work area boundary.',
+            pos: 'Place it after the Conveyor Belt — surrounding the work zone.',
+            tip: 'Safety first! This is mandatory in any real factory.',
+            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+        },
+        sign: {
+            icon: '⚠️', name: 'Warning Sign',
+            desc: 'Reminds everyone that this is a work zone. Safety awareness is key!',
+            pos: 'Place it after the Safety Fence — front-left corner, highly visible.',
+            tip: 'Place it where everyone can see it!',
+            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+        },
+        plant: {
+            icon: '🌿', name: 'Plant',
+            desc: 'Adds some greenery to make the industrial environment feel more welcoming and less stressful.',
+            pos: 'Place it anywhere you like! — corner or near the entrance.',
+            tip: 'A little green goes a long way!',
+            diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
+        }
+    };
+
+    function showItemIntro(itemKey, variantIndex) {
+        if (!state.faceSelected) {
             showToast('Please select Gender & Face first', 2000);
             return;
         }
-
         const info = ITEM_INFO[itemKey];
         if (!info) return;
 
         pendingItem = itemKey;
-        introFaceIcon.textContent = getCurrentFaceEmoji();
-        introItemIcon.textContent = info.icon;
-        introItemName.textContent = info.name;
+        pendingVariant = variantIndex;
+        introFaceIcon.textContent = getCurrentFaceEmoji() || '🧑';
+        introItemIcon.textContent = getIcon(itemKey, variantIndex);
+        introItemName.textContent = info.name + ' (' + getStyleLabel(itemKey, variantIndex) + ')';
         introItemDesc.textContent = info.desc;
         introItemPos.textContent = info.pos;
         introItemTip.textContent = info.tip;
 
-        // Build diagram
         const items = info.diagram.split(' → ');
         introDiagramRow.innerHTML = items.map((icon, idx) => {
             if (idx === items.length - 1) {
@@ -1001,86 +1020,88 @@
     function hideItemIntro() {
         introOverlay.classList.remove('show');
         pendingItem = null;
+        pendingVariant = null;
     }
 
-    function confirmPlaceItem() {
-        if (!pendingItem) return;
-        const itemKey = pendingItem;
-        hideItemIntro();
-        setTimeout(() => {
-            renderCounter(itemKey);
-        }, 200);
-    }
+    // ===== Counter popup for a specific style =====
+    function renderCounterPopup(itemKey, variantIndex) {
+        const styleKey = getStyleKey(itemKey, variantIndex);
+        const current = styleCounts[styleKey] || 0;
+        const label = getStyleLabel(itemKey, variantIndex);
+        const icon = getIcon(itemKey, variantIndex);
+        const itemLabel = ITEM_INFO[itemKey] ? ITEM_INFO[itemKey].name : itemKey;
 
-    // ===== Popup =====
-    function renderPopup(html) {
-        const container = popupContainer;
-        container.innerHTML = `<div style="pointer-events:auto;width:90%;max-width:720px;margin:auto;"><div class="popup-card">${html}</div></div>`;
-        const closeBtn = container.querySelector('#popupClose');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                clearPopup();
-                renderScene();
-                updateChatFace();
-            });
-        }
-        updateChatFace();
-    }
-
-    function clearPopup() {
-        popupContainer.innerHTML = `<div style="pointer-events:auto;width:90%;max-width:720px;"></div>`;
-    }
-
-    // ===== Counter =====
-    function renderCounter(itemKey) {
-        const current = itemCounts[itemKey] || 0;
-        const label = LABELS[itemKey] || itemKey;
-        const icon = ICON_MAP[itemKey] || '📦';
         const html = `
             <button class="close-btn" id="popupClose"><i class="fas fa-times"></i> Close</button>
-            <h2><i class="fas fa-plus-circle"></i> ${label}</h2>
-            <div class="counter-label">${icon}  How many ${label} do you want?</div>
+            <h2><i class="fas fa-plus-circle"></i> ${itemLabel} - ${label}</h2>
+            <div class="counter-label">${icon}  How many ${label} ${itemLabel} do you want? (max ${MAX_PER_STYLE})</div>
             <div class="counter-control">
                 <button class="counter-btn" id="counterDec" ${current <= 0 ? 'disabled' : ''}>−</button>
                 <span class="counter-num" id="counterNum">${current}</span>
-                <button class="counter-btn" id="counterInc" ${current >= MAX_PER_ITEM ? 'disabled' : ''}>+</button>
+                <button class="counter-btn" id="counterInc" ${current >= MAX_PER_STYLE ? 'disabled' : ''}>+</button>
             </div>
-            <div class="counter-preview">Max ${MAX_PER_ITEM} per type &nbsp;·&nbsp; Currently ${current} in scene</div>
+            <div class="counter-preview">Currently ${current} in scene</div>
             <div style="text-align:center;margin-top:12px;color:#4a7a9a;font-size:12px;">💡 Drag items after placing to reposition them</div>
+            <div style="display:flex;justify-content:center;margin-top:12px;gap:12px;">
+                <button class="crystal-btn" id="addToSceneBtn" style="width:auto;padding:8px 24px;font-size:12px;background:rgba(74,138,170,0.15);border-color:rgba(74,138,170,0.3);">
+                    Add to Scene
+                </button>
+            </div>
         `;
         renderPopup(html);
 
         document.getElementById('counterDec').addEventListener('click', function() {
-            if (itemCounts[itemKey] > 0) {
-                const idx = itemCounts[itemKey] - 1;
-                const id = itemKey + '-' + idx;
+            if (styleCounts[styleKey] > 0) {
+                // Remove the last one of this style
+                const idx = styleCounts[styleKey] - 1;
+                const id = styleKey + '-' + idx;
                 delete itemPositions[id];
-                itemCounts[itemKey]--;
-                showToast(`Removed one ${label}`, 1200);
-                renderCounter(itemKey);
+                styleCounts[styleKey]--;
+                renderCounterPopup(itemKey, variantIndex);
                 renderScene();
                 updateLibraryStatus();
             }
         });
 
         document.getElementById('counterInc').addEventListener('click', function() {
-            if (itemCounts[itemKey] < MAX_PER_ITEM) {
-                const idx = itemCounts[itemKey];
-                const id = itemKey + '-' + idx;
-                const positions = generatePositions(itemKey, idx + 1);
+            if (styleCounts[styleKey] < MAX_PER_STYLE) {
+                const idx = styleCounts[styleKey];
+                const id = styleKey + '-' + idx;
+                const positions = generatePositions(itemKey, variantIndex, idx + 1);
                 const pos = positions[idx] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
                 itemPositions[id] = pos;
-                itemCounts[itemKey]++;
-                showToast(`Added one ${label}`, 1200);
-                renderCounter(itemKey);
+                styleCounts[styleKey]++;
+                renderCounterPopup(itemKey, variantIndex);
                 renderScene();
                 updateLibraryStatus();
+                showToast(`Added ${getStyleLabel(itemKey, variantIndex)} ${ITEM_INFO[itemKey] ? ITEM_INFO[itemKey].name : itemKey}`, 1200);
             }
+        });
+
+        document.getElementById('addToSceneBtn').addEventListener('click', function() {
+            const count = styleCounts[styleKey] || 0;
+            for (let i = 0; i < count; i++) {
+                const id = styleKey + '-' + i;
+                if (!itemPositions[id]) {
+                    const positions = generatePositions(itemKey, variantIndex, count);
+                    const pos = positions[i] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
+                    itemPositions[id] = pos;
+                }
+            }
+            renderScene();
+            updateLibraryStatus();
+            clearPopup();
+            showToast(`${count} ${getStyleLabel(itemKey, variantIndex)} added to scene!`, 1500);
+        });
+
+        document.getElementById('popupClose').addEventListener('click', function() {
+            clearPopup();
+            renderScene();
+            updateChatFace();
         });
     }
 
-    function generatePositions(key, count) {
+    function generatePositions(itemKey, variantIndex, count) {
         const base = {
             workbench: { left: 10, bottom: 18 },
             control: { left: 26, bottom: 18 },
@@ -1090,13 +1111,15 @@
             sign: { left: 82, bottom: 34 },
             plant: { left: 85, bottom: 10 }
         };
-        const b = base[key] || { left: 40, bottom: 30 };
+        const b = base[itemKey] || { left: 40, bottom: 30 };
+        // Add small random offset for each style variant to avoid overlap
+        const variantOffset = variantIndex * 8;
         const offsets = [
-            { dx: 0, dy: 0 },
-            { dx: -8, dy: 6 },
-            { dx: 8, dy: -6 },
-            { dx: -12, dy: -4 },
-            { dx: 12, dy: 4 }
+            { dx: 0 + variantOffset, dy: 0 },
+            { dx: -8 + variantOffset, dy: 6 },
+            { dx: 8 + variantOffset, dy: -6 },
+            { dx: -12 + variantOffset, dy: -4 },
+            { dx: 12 + variantOffset, dy: 4 }
         ];
         const positions = [];
         for (let i = 0; i < count && i < offsets.length; i++) {
@@ -1114,19 +1137,23 @@
         let html = `<div class="factory-scene" id="factoryScene">`;
 
         ITEM_KEYS.forEach(key => {
-            const count = itemCounts[key] || 0;
-            for (let i = 0; i < count; i++) {
-                const id = key + '-' + i;
-                let pos = itemPositions[id];
-                if (!pos) {
-                    const positions = generatePositions(key, count);
-                    pos = positions[i] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
-                    itemPositions[id] = pos;
+            for (let v = 0; v < 4; v++) {
+                const styleKey = key + '-' + v;
+                const count = styleCounts[styleKey] || 0;
+                const icon = getIcon(key, v);
+                for (let i = 0; i < count; i++) {
+                    const id = styleKey + '-' + i;
+                    let pos = itemPositions[id];
+                    if (!pos) {
+                        const positions = generatePositions(key, v, count);
+                        pos = positions[i] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
+                        itemPositions[id] = pos;
+                    }
+                    html += `<div class="scene-object" data-id="${id}" data-key="${key}" data-variant="${v}" data-index="${i}" 
+                              style="left:${pos.left}; bottom:${pos.bottom}; font-size:40px; z-index:2; cursor:grab;">
+                        ${icon}
+                    </div>`;
                 }
-                html += `<div class="scene-object" data-id="${id}" data-key="${key}" data-index="${i}" 
-                          style="left:${pos.left}; bottom:${pos.bottom}; font-size:40px; z-index:2; cursor:grab;">
-                    ${ICON_MAP[key]}
-                </div>`;
             }
         });
 
@@ -1230,8 +1257,10 @@
 
     function updateLibraryStatus() {
         document.querySelectorAll('.lib-item[data-action="counter"]').forEach(el => {
-            const key = el.dataset.item;
-            const count = itemCounts[key] || 0;
+            const item = el.dataset.item;
+            const variant = parseInt(el.dataset.variant);
+            const styleKey = item + '-' + variant;
+            const count = styleCounts[styleKey] || 0;
             let check = el.querySelector('.placed-check');
             if (count > 0) {
                 if (!check) {
@@ -1246,34 +1275,20 @@
         });
     }
 
-    // ===== Library functions =====
-    function renderInfoBoard() {
-        hideItemIntro();
-        const html = `
-            <button class="close-btn" id="popupClose"><i class="fas fa-times"></i> Close</button>
-            <h2><i class="fas fa-robot"></i> Digital Assistant</h2>
-            <div class="dh-container">
-                <div class="dh-avatar"><i class="fas fa-user-tie"></i></div>
-                <div class="dh-screen" id="dhScreen">
-                    <h3><i class="fas fa-list-check"></i> Click to show 5 Steps</h3>
-                    <div id="stepList" style="display:none; margin-top:6px;">
-                        <ul><li>1. Boot up the Digital Human Control Terminal</li><li>2. Calibrate the Robotic Arm position</li><li>3. Set the Conveyor Belt operating speed</li><li>4. Start the Collaborative Assembly Task</li><li>5. Stop & shut down system after work</li></ul>
-                    </div>
-                </div>
-            </div>
-            <div style="text-align:right;margin-top:14px;color:#4a7a9a;font-size:12px;">Click the screen to reveal steps</div>
-        `;
-        renderPopup(html);
-        document.getElementById('dhScreen')?.addEventListener('click', function(e) {
-            const list = document.getElementById('stepList');
-            if (list) {
-                const hidden = list.style.display === 'none';
-                list.style.display = hidden ? 'block' : 'none';
-                this.querySelector('h3').innerHTML = hidden ? '<i class="fas fa-list-check"></i> 5 Steps Guide' : '<i class="fas fa-list-check"></i> Steps (click to hide)';
-            }
-        });
+    // ===== Popup =====
+    function renderPopup(html) {
+        const container = popupContainer;
+        container.innerHTML = `<div style="pointer-events:auto;width:90%;max-width:720px;margin:auto;"><div class="popup-card">${html}</div></div>`;
+        updateChatFace();
     }
 
+    function clearPopup() {
+        popupContainer.innerHTML = `<div style="pointer-events:auto;width:90%;max-width:720px;"></div>`;
+    }
+
+    // ============================================================
+    // GENDER & FACE
+    // ============================================================
     function renderGender() {
         hideItemIntro();
         const html = `
@@ -1293,15 +1308,18 @@
                 state.selectedFace = null;
                 state.faceSelected = false;
                 showToast(`Gender: ${state.selectedGender}`, 1200);
-                // After selecting gender, go directly to face selection
                 renderFace();
                 updateChatFace();
             });
         });
+        document.getElementById('popupClose')?.addEventListener('click', function() {
+            clearPopup();
+            renderScene();
+            updateChatFace();
+        });
     }
 
     function renderFace() {
-        hideItemIntro();
         if (!state.selectedGender) { showToast('Select Gender first', 1500); renderGender(); return; }
         const arr = state.selectedGender === 'male' ? state.maleFaces : state.femaleFaces;
         let html = `
@@ -1315,35 +1333,51 @@
         });
         html += `</div>
             ${state.selectedFace!==null ? `<div style="text-align:center;margin-top:12px;color:#1a3a5a;">Face ${state.selectedFace+1} selected</div>` : ''}
-            <div style="text-align:center;margin-top:14px;color:#4a7a9a;font-size:12px;">Choose a face</div>
+            <div style="text-align:center;margin-top:14px;color:#4a7a9a;font-size:12px;">Click a face to select it</div>
         `;
         renderPopup(html);
+
         document.querySelectorAll('.face-item').forEach(el => {
             el.addEventListener('click', function() {
                 state.selectedFace = parseInt(this.dataset.idx);
                 state.faceSelected = true;
-                showToast(`Face ${state.selectedFace+1} selected`, 1200);
-                // Close the popup and show the scene
-                clearPopup();
+                document.querySelectorAll('.face-item').forEach(e => e.classList.remove('selected'));
+                this.classList.add('selected');
+                showToast(`Face ${state.selectedFace+1} selected!`, 1200);
+                renderFace();
                 renderScene();
                 updateChatFace();
-                // Show a brief toast
-                showToast('✅ Face selected! Now click any item in the Library to start building.', 2500);
+                setTimeout(() => {
+                    clearPopup();
+                    renderScene();
+                    updateChatFace();
+                    showToast('✅ Avatar ready! Now click any item in the Library to start building.', 2500);
+                }, 600);
             });
+        });
+        document.getElementById('popupClose')?.addEventListener('click', function() {
+            clearPopup();
+            renderScene();
+            updateChatFace();
         });
     }
 
+    // ===== View =====
     function renderView() {
         hideItemIntro();
         const isThird = state.currentView === 'third';
         let previewHtml = `<div style="width:100%;height:160px;border-radius:16px;overflow:hidden;background:#c0d8ea;position:relative;margin-top:10px;">`;
         previewHtml += `<div class="factory-scene" style="position:relative;height:160px;">`;
         ITEM_KEYS.forEach(key => {
-            const count = itemCounts[key] || 0;
-            for (let i = 0; i < count; i++) {
-                const id = key + '-' + i;
-                const pos = itemPositions[id] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
-                previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; font-size:32px; z-index:2; pointer-events:none;">${ICON_MAP[key]}</div>`;
+            for (let v = 0; v < 4; v++) {
+                const styleKey = key + '-' + v;
+                const count = styleCounts[styleKey] || 0;
+                const icon = getIcon(key, v);
+                for (let i = 0; i < count; i++) {
+                    const id = styleKey + '-' + i;
+                    const pos = itemPositions[id] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
+                    previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; font-size:32px; z-index:2; pointer-events:none;">${icon}</div>`;
+                }
             }
         });
         const faceEmoji = getCurrentFaceEmoji();
@@ -1376,6 +1410,43 @@
                 renderScene();
                 updateChatFace();
             });
+        });
+        document.getElementById('popupClose')?.addEventListener('click', function() {
+            clearPopup();
+            renderScene();
+            updateChatFace();
+        });
+    }
+
+    function renderInfoBoard() {
+        hideItemIntro();
+        const html = `
+            <button class="close-btn" id="popupClose"><i class="fas fa-times"></i> Close</button>
+            <h2><i class="fas fa-robot"></i> Digital Assistant</h2>
+            <div class="dh-container">
+                <div class="dh-avatar"><i class="fas fa-user-tie"></i></div>
+                <div class="dh-screen" id="dhScreen">
+                    <h3><i class="fas fa-list-check"></i> Click to show 5 Steps</h3>
+                    <div id="stepList" style="display:none; margin-top:6px;">
+                        <ul><li>1. Boot up the Digital Human Control Terminal</li><li>2. Calibrate the Robotic Arm position</li><li>3. Set the Conveyor Belt operating speed</li><li>4. Start the Collaborative Assembly Task</li><li>5. Stop & shut down system after work</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:right;margin-top:14px;color:#4a7a9a;font-size:12px;">Click the screen to reveal steps</div>
+        `;
+        renderPopup(html);
+        document.getElementById('dhScreen')?.addEventListener('click', function(e) {
+            const list = document.getElementById('stepList');
+            if (list) {
+                const hidden = list.style.display === 'none';
+                list.style.display = hidden ? 'block' : 'none';
+                this.querySelector('h3').innerHTML = hidden ? '<i class="fas fa-list-check"></i> 5 Steps Guide' : '<i class="fas fa-list-check"></i> Steps (click to hide)';
+            }
+        });
+        document.getElementById('popupClose')?.addEventListener('click', function() {
+            clearPopup();
+            renderScene();
+            updateChatFace();
         });
     }
 
@@ -1448,33 +1519,34 @@
     function getSmartReply(msg) {
         const q = msg.toLowerCase().trim();
         if (q.match(/^(hi|hello|hey|greetings)/i)) return "Hello! 👋 I'm your Helix Guide assistant. How can I help you?";
-        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant' in the Library. I'll tell you all about it and then you can choose how many to add!";
-        if (q.match(/how to place|how do i place|how can i place|add object/i)) return "🔧 Click any item in the Library — I'll introduce it to you first! Then you can add up to 5 of each type.";
-        if (q.match(/workbench/i)) return "🛠️ The Workbench is your primary workstation. Click it in the Library — I'll give you a full introduction!";
-        if (q.match(/control panel/i)) return "🎛️ The Control Panel is the command center. Click it in the Library and I'll tell you all about it!";
-        if (q.match(/robotic arm|arm|robot arm/i)) return "🦾 The Robotic Arm is the heart of the cobot system. Click it in the Library for a detailed introduction!";
-        if (q.match(/conveyor|belt/i)) return "⚙️ The Conveyor Belt moves materials. Click it in the Library — I'll explain everything!";
-        if (q.match(/safety fence|fence|safety/i)) return "🛡️ The Safety Fence keeps workers safe. Click it in the Library to learn more!";
-        if (q.match(/warning sign|sign|warning/i)) return "⚠️ The Warning Sign reminds everyone about safety. Click it in the Library for details!";
+        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant 1-4' in the Library. Each style has its own count!";
+        if (q.match(/how to place|how do i place|how can i place|add object/i)) return "🔧 Click any item style in the Library — each style (1-4) has its own counter up to 5. You can mix different styles in the scene!";
+        if (q.match(/style|variant|different/i)) return "🎨 Each item has 4 different styles! Click 'Workbench 1', 'Workbench 2', etc. — each style has its own count and can be placed together!";
         if (q.match(/drag|move|reposition/i)) return "✋ You can drag any item in the scene by clicking and holding it, then moving it to a new position!";
+        if (q.match(/workbench/i)) return "🛠️ Workbench has 4 styles: Standard (1), Heavy (2), Precision (3), Smart (4). Each style can have up to 5 items!";
+        if (q.match(/control panel/i)) return "🎛️ Control Panel has 4 styles: Standard (1), Digital (2), Vintage (3), Touch (4). Each style can have up to 5 items!";
+        if (q.match(/robotic arm|arm/i)) return "🦾 Robotic Arm has 4 styles: Standard (1), Humanoid (2), Industrial (3), Advanced (4). Each style can have up to 5 items!";
+        if (q.match(/conveyor|belt/i)) return "⚙️ Conveyor Belt has 4 styles: Standard (1), Heavy (2), Package (3), Curved (4). Each style can have up to 5 items!";
+        if (q.match(/fence|safety/i)) return "🛡️ Safety Fence has 4 styles: Standard (1), Heavy (2), Red (3), Locked (4). Each style can have up to 5 items!";
+        if (q.match(/sign|warning/i)) return "⚠️ Warning Sign has 4 styles: Standard (1), Hazard (2), Electric (3), Notice (4). Each style can have up to 5 items!";
         if (q.match(/next|what do i do|what should i do|guide me|what now/i)) {
-            const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
-            if (total === 0) return "📋 First, select Gender and Face. Then click any item in the Library — I'll introduce each one to you!";
-            return `📋 You've placed ${total} item(s). Keep adding more (max 5 each)! When done, click 'Save' to get a private code.`;
+            const total = Object.values(styleCounts).reduce((a, b) => a + b, 0);
+            if (total === 0) return "📋 First, customize your avatar (Gender → Face). Then click any item style in the Library to start building! Each style has its own count.";
+            return `📋 You've placed ${total} item(s). Try adding different styles of the same item — they can all appear together! When done, click 'Save' to get a private code.`;
         }
         if (q.match(/save|code|saved|private code/i)) {
-            const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
+            const total = Object.values(styleCounts).reduce((a, b) => a + b, 0);
             if (total < 3) return "🔑 Place at least 3 items first, then click 'Save'.";
             return "🔑 Click 'Save' in the Library to generate your private 6-letter code.";
         }
         if (q.match(/reset|clear|remove all|start over/i)) return "🔄 Click 'Reset All' at the bottom of the Library to clear everything.";
         if (q.match(/view|camera|perspective|first person|third person/i)) return "👁️ Use 'Views' in the Library to switch between First and Third Person views.";
-        if (q.match(/gender|male|female|face|avatar|appearance/i)) return "👤 Select Gender then Face in the Library to customize your avatar.";
+        if (q.match(/gender|male|female|face|avatar|appearance/i)) return "👤 Go to Gender → select Male/Female → click a face to select it instantly!";
         if (q.match(/thank|thanks|thx|appreciate/i)) return "You're welcome! 😊 Keep building!";
         if (q.match(/help|what can you do|capabilities/i)) {
-            return "🤖 I can help with:\n• Introducing each item when you click it\n• Adding items (max 5 each!)\n• Dragging items anywhere\n• Saving with a code\n• Switching views\n• Resetting workspace\n• Customizing avatar\n\nJust click any item in the Library to get started! 🚀";
+            return "🤖 I can help with:\n• Customizing your avatar (Gender → click a face!)\n• Each item has 4 styles, each with its own counter (max 5 per style)!\n• Mix different styles of the same item in the scene\n• Dragging items anywhere\n• Saving with a code\n• Switching views\n• Resetting workspace\n\nTry it out! 🚀";
         }
-        return "🤔 Try clicking an item in the Library — I'll introduce it to you! Or ask me about: adding items, dragging, saving, views, resetting, or avatar.";
+        return "🤔 Try customizing your avatar first. Then click any item style (1-4) in the Library — each style has its own counter so you can mix them!";
     }
 
     function addChatMessage(text, sender) {
@@ -1515,7 +1587,6 @@
         state.codeInput = [];
         clearPopup();
         hideItemIntro();
-        // Don't hide chat trigger completely, but it won't show if face not selected
         updateChatFace();
     }
 
@@ -1529,28 +1600,36 @@
     }
 
     function resetAll() {
-        ITEM_KEYS.forEach(key => { itemCounts[key] = 0; });
+        ITEM_KEYS.forEach(key => {
+            for (let i = 0; i < 4; i++) {
+                styleCounts[key + '-' + i] = 0;
+            }
+        });
         itemPositions = {};
         renderScene();
         updateLibraryStatus();
         showToast('🔄 All objects removed. Ready to rebuild!', 2000);
     }
 
-    // ===== Library click handler =====
-    function handleAction(action, item) {
+    function handleAction(action, item, variant) {
         switch(action) {
             case 'info': renderInfoBoard(); break;
             case 'gender': renderGender(); break;
             case 'face': renderFace(); break;
             case 'view': renderView(); break;
             case 'counter':
-                if(item) {
-                    showItemIntro(item);
+                if(item !== undefined && variant !== undefined) {
+                    if (!state.faceSelected) {
+                        showToast('Please select Gender & Face first', 2000);
+                        return;
+                    }
+                    // Show intro then counter
+                    showItemIntro(item, parseInt(variant));
                 }
                 break;
             case 'reset': resetAll(); break;
             case 'save': {
-                const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
+                const total = Object.values(styleCounts).reduce((a, b) => a + b, 0);
                 if (total < 3) { showToast('Place at least 3 items', 2000); return; }
                 const chars = 'abcdefghijklmnopqrstuvwxyz';
                 let code = '';
@@ -1563,18 +1642,23 @@
         }
     }
 
-    // ===== Intro popup buttons =====
-    introCancel.addEventListener('click', function() {
-        hideItemIntro();
-    });
-
+    introCancel.addEventListener('click', hideItemIntro);
     introConfirm.addEventListener('click', function() {
-        confirmPlaceItem();
+        if (pendingItem !== null && pendingVariant !== null) {
+            const itemKey = pendingItem;
+            const variantIndex = pendingVariant;
+            hideItemIntro();
+            renderCounterPopup(itemKey, variantIndex);
+        }
     });
 
     // ===== Events =====
     document.getElementById('btnCreateEnv').addEventListener('click', function() {
-        ITEM_KEYS.forEach(key => { itemCounts[key] = 0; });
+        ITEM_KEYS.forEach(key => {
+            for (let i = 0; i < 4; i++) {
+                styleCounts[key + '-' + i] = 0;
+            }
+        });
         itemPositions = {};
         state.selectedGender = null; state.selectedFace = null;
         state.faceSelected = false;
@@ -1604,20 +1688,19 @@
         if (!item) return;
         const action = item.dataset.action;
         const dataItem = item.dataset.item;
-        if (action) handleAction(action, dataItem);
+        const variant = item.dataset.variant;
+        if (action) handleAction(action, dataItem, variant);
     });
 
-    // Chat
     document.getElementById('chatTrigger').addEventListener('click', function() { chatOverlay.classList.add('show'); });
     document.getElementById('closeChat').addEventListener('click', function() { chatOverlay.classList.remove('show'); });
     chatOverlay.addEventListener('click', function(e) { if (e.target === this) chatOverlay.classList.remove('show'); });
     document.getElementById('chatSend').addEventListener('click', handleChatSend);
     chatInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') handleChatSend(); });
 
-    // Init
     updateChatFace();
     window.__state = state;
-    window.__itemCounts = itemCounts;
+    window.__styleCounts = styleCounts;
     window.__itemPositions = itemPositions;
 })();
 </script>
