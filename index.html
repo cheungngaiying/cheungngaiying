@@ -181,35 +181,23 @@
         /* ===== SCENE ===== */
         .factory-scene {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('图1.png') center/cover no-repeat;
+            background: url('file:///D:/IDAT毕设/图1.png') center/cover no-repeat;
             user-select: none;
             overflow: hidden;
         }
         .scene-object {
-            position: absolute;
+            position: absolute; font-size: 40px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.04));
             pointer-events: auto; z-index: 2; cursor: grab;
             padding: 4px; border-radius: 8px; touch-action: none;
             transition: transform 0.1s ease;
             transform-origin: center center;
-        }
-        .scene-object img {
-            width: 64px;
-            height: 64px;
-            object-fit: contain;
-            display: block;
-            pointer-events: none;
-            transition: width 0.1s ease, height 0.1s ease;
         }
         .scene-object:hover { filter: drop-shadow(0 8px 20px rgba(0,0,0,0.08)); }
         .scene-object.dragging {
             z-index: 10; opacity: 0.85; transform: scale(1.05);
             filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
             cursor: grabbing;
-        }
-        .scene-object.selected {
-            outline: 3px solid rgba(74,138,170,0.5);
-            outline-offset: 4px;
-            border-radius: 12px;
         }
 
         .dh-corner {
@@ -228,88 +216,6 @@
             background: rgba(255,255,255,0.1); padding: 3px 16px; border-radius: 40px;
             backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1);
             font-family: 'Orbitron', sans-serif; z-index: 3;
-        }
-
-        /* ===== TRANSFORM CONTROLS ===== */
-        .transform-controls {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20;
-            background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255,255,255,0.4);
-            border-radius: 20px;
-            padding: 14px 24px;
-            display: none;
-            align-items: center;
-            gap: 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
-            color: #1a3a5a;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            min-width: 300px;
-            justify-content: center;
-        }
-        .transform-controls.show { display: flex; }
-        .transform-controls .ctrl-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .transform-controls .ctrl-group label {
-            font-size: 10px;
-            opacity: 0.6;
-            letter-spacing: 1px;
-        }
-        .transform-controls input[type="range"] {
-            width: 80px;
-            height: 4px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255,255,255,0.3);
-            border-radius: 4px;
-            outline: none;
-        }
-        .transform-controls input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: rgba(74,138,170,0.4);
-            border: 2px solid rgba(74,138,170,0.6);
-            cursor: pointer;
-        }
-        .transform-controls input[type="range"]::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: rgba(74,138,170,0.4);
-            border: 2px solid rgba(74,138,170,0.6);
-            cursor: pointer;
-        }
-        .transform-controls .ctrl-value {
-            font-size: 12px;
-            font-weight: 600;
-            min-width: 30px;
-            text-align: center;
-            color: #1a3a5a;
-        }
-        .transform-controls .close-transform {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 40px;
-            padding: 2px 12px;
-            font-size: 10px;
-            font-family: 'Orbitron', sans-serif;
-            color: #1a3a5a;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .transform-controls .close-transform:hover {
-            background: rgba(255,255,255,0.4);
         }
 
         .intro-overlay {
@@ -333,16 +239,7 @@
         .intro-popup .intro-body {
             font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; line-height: 1.7; color: #1a3a5a;
         }
-        .intro-popup .intro-body .item-icon-large {
-            font-size: 60px;
-            display: block;
-            margin-bottom: 4px;
-        }
-        .intro-popup .intro-body .item-icon-large img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-        }
+        .intro-popup .intro-body .item-icon-large { font-size: 40px; display: block; margin-bottom: 4px; }
         .intro-popup .intro-body .item-name { font-weight: 700; font-size: 16px; font-family: 'Orbitron', sans-serif; }
         .intro-popup .intro-body .item-desc { margin: 4px 0; }
         .intro-popup .intro-body .item-pos { opacity: 0.7; font-size: 12px; }
@@ -390,6 +287,19 @@
             from { opacity: 0; transform: translateY(-10px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
+
+        .style-selector {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 10px 0;
+        }
+        .style-option {
+            padding: 8px 6px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.08); cursor: pointer; text-align: center;
+            transition: 0.2s; font-size: 11px; color: #1a3a5a; font-family: 'Orbitron', sans-serif;
+        }
+        .style-option:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+        .style-option.active { border-color: rgba(74,138,170,0.5); background: rgba(74,138,170,0.1); box-shadow: 0 0 20px rgba(74,138,170,0.04); }
+        .style-option .style-preview { font-size: 28px; display: block; margin-bottom: 2px; }
+        .style-option .style-label { font-size: 9px; opacity: 0.6; }
 
         .library {
             width: 260px; min-width: 260px;
@@ -495,6 +405,10 @@
         .counter-preview {
             text-align: center; font-size: 13px; color: #4a7a9a; margin-top: 8px;
             font-family: 'Orbitron', sans-serif;
+        }
+        .style-selector-title {
+            font-size: 12px; font-family: 'Orbitron', sans-serif; color: #4a7a9a;
+            margin: 12px 0 6px 0; text-align: center;
         }
 
         .toast-panel {
@@ -658,8 +572,6 @@
             .library { width: 220px; min-width: 220px; }
             .lib-item { min-height: 36px; height: 36px; font-size: 11px; padding: 6px 10px; }
             .intro-popup { max-width: 400px; padding: 20px 24px; }
-            .transform-controls { min-width: 240px; padding: 12px 16px; gap: 16px; }
-            .transform-controls input[type="range"] { width: 60px; }
         }
         @media (max-width: 900px) {
             .app-container { height: auto; min-height: 680px; border-radius: 24px; }
@@ -672,10 +584,6 @@
             .intro-popup { max-width: 340px; padding: 16px 18px; }
             .intro-popup .intro-body { font-size: 12px; }
             .intro-popup .placement-diagram { font-size: 12px; }
-            .transform-controls { min-width: 180px; padding: 10px 12px; gap: 10px; flex-wrap: wrap; bottom: 70px; }
-            .transform-controls input[type="range"] { width: 40px; }
-            .transform-controls .ctrl-group label { font-size: 8px; }
-            .transform-controls .ctrl-value { font-size: 10px; min-width: 20px; }
         }
         @media (max-width: 600px) {
             .library { width: 140px; min-width: 140px; padding: 8px 6px; }
@@ -690,11 +598,6 @@
             .intro-popup { max-width: 300px; padding: 14px 16px; }
             .intro-popup .intro-body { font-size: 11px; }
             .intro-popup .intro-actions button { font-size: 10px; padding: 6px 14px; }
-            .transform-controls { min-width: 150px; padding: 8px 10px; gap: 8px; bottom: 60px; }
-            .transform-controls input[type="range"] { width: 30px; }
-            .transform-controls .ctrl-group label { font-size: 7px; }
-            .transform-controls .ctrl-value { font-size: 9px; min-width: 16px; }
-            .transform-controls .close-transform { font-size: 8px; padding: 1px 8px; }
         }
     </style>
 </head>
@@ -797,7 +700,7 @@
                     <span>Assistant</span>
                 </div>
                 <div class="intro-body" id="introBody">
-                    <div class="item-icon-large" id="introItemIcon">🔧</div>
+                    <span class="item-icon-large" id="introItemIcon">🔧</span>
                     <div class="item-name" id="introItemName">Workbench</div>
                     <div class="item-desc" id="introItemDesc">Your main assembly station.</div>
                     <div class="item-pos" id="introItemPos">📍 Place it first, bottom-left area.</div>
@@ -827,21 +730,6 @@
                     <button class="confirm-btn" id="introConfirm">OK, Place It</button>
                 </div>
             </div>
-        </div>
-
-        <!-- Transform Controls -->
-        <div class="transform-controls" id="transformControls">
-            <div class="ctrl-group">
-                <label>Size</label>
-                <input type="range" id="sizeSlider" min="30" max="200" value="100">
-                <span class="ctrl-value" id="sizeValue">100%</span>
-            </div>
-            <div class="ctrl-group">
-                <label>Rotate</label>
-                <input type="range" id="rotateSlider" min="0" max="360" value="0">
-                <span class="ctrl-value" id="rotateValue">0°</span>
-            </div>
-            <button class="close-transform" id="closeTransform">✕</button>
         </div>
 
         <div class="library" id="library">
@@ -897,42 +785,93 @@
 <script>
 (function() {
     // ============================================================
-    // IMAGE MAPPING - 用你的图片替换emoji
-    // 图片对应关系：
-    // 图2.png → Workbench
-    // 图3.png → Control Panel
-    // 图4.png → Robotic Arm
-    // 图5.png → Conveyor Belt
-    // 图6.png → Safety Fence
-    // 图7.png → Warning Sign
-    // 图8.png → Plant
+    // ITEM VARIANTS
     // ============================================================
-    const ITEM_IMAGES = {
-        workbench: '图2.png',
-        control: '图3.png',
-        arm: '图4.png',
-        conveyor: '图5.png',
-        fence: '图6.png',
-        sign: '图7.png',
-        plant: '图8.png'
+    const ITEM_VARIANTS = {
+        workbench: {
+            label: 'Workbench',
+            variants: [
+                { icon: '🔧', name: 'Standard' },
+                { icon: '🛠️', name: 'Heavy' },
+                { icon: '📐', name: 'Precision' },
+                { icon: '⚡', name: 'Smart' }
+            ]
+        },
+        control: {
+            label: 'Control Panel',
+            variants: [
+                { icon: '🎛️', name: 'Standard' },
+                { icon: '📊', name: 'Digital' },
+                { icon: '📟', name: 'Vintage' },
+                { icon: '🖥️', name: 'Touch' }
+            ]
+        },
+        arm: {
+            label: 'Robotic Arm',
+            variants: [
+                { icon: '🦾', name: 'Standard' },
+                { icon: '🤖', name: 'Humanoid' },
+                { icon: '⚙️', name: 'Industrial' },
+                { icon: '🚀', name: 'Advanced' }
+            ]
+        },
+        conveyor: {
+            label: 'Conveyor Belt',
+            variants: [
+                { icon: '⚙️', name: 'Standard' },
+                { icon: '🔩', name: 'Heavy' },
+                { icon: '📦', name: 'Package' },
+                { icon: '🌀', name: 'Curved' }
+            ]
+        },
+        fence: {
+            label: 'Safety Fence',
+            variants: [
+                { icon: '🛡️', name: 'Standard' },
+                { icon: '🚧', name: 'Heavy' },
+                { icon: '⛔', name: 'Red' },
+                { icon: '🔒', name: 'Locked' }
+            ]
+        },
+        sign: {
+            label: 'Warning Sign',
+            variants: [
+                { icon: '⚠️', name: 'Standard' },
+                { icon: '☢️', name: 'Hazard' },
+                { icon: '⚡', name: 'Electric' },
+                { icon: '📢', name: 'Notice' }
+            ]
+        },
+        plant: {
+            label: 'Plant',
+            variants: [
+                { icon: '🌿', name: 'Fern' },
+                { icon: '🌱', name: 'Seedling' },
+                { icon: '🌴', name: 'Palm' },
+                { icon: '🌸', name: 'Flower' }
+            ]
+        }
     };
 
     const MAX_PER_ITEM = 5;
-    const ITEM_KEYS = ['workbench','control','arm','conveyor','fence','sign','plant'];
+    const ICON_MAP = {
+        workbench:'🔧', control:'🎛️', arm:'🦾', conveyor:'⚙️',
+        fence:'🛡️', sign:'⚠️', plant:'🌿'
+    };
     const LABELS = {
         workbench:'Workbench', control:'Control Panel', arm:'Robotic Arm',
         conveyor:'Conveyor Belt', fence:'Safety Fence', sign:'Warning Sign', plant:'Plant'
     };
+    const ITEM_KEYS = ['workbench','control','arm','conveyor','fence','sign','plant'];
 
     let itemCounts = {};
     let itemPositions = {};
-    let itemScales = {};
-    let itemRotations = {};
+    let itemVariants = {};
     let dragData = null;
     let pendingItem = null;
-    let selectedObjectId = null;
 
     ITEM_KEYS.forEach(key => { itemCounts[key] = 0; });
+    ITEM_KEYS.forEach(key => { itemVariants[key] = 0; });
 
     const state = {
         currentView: 'first',
@@ -968,12 +907,6 @@
     const introDiagramRow = document.getElementById('introDiagramRow');
     const introCancel = document.getElementById('introCancel');
     const introConfirm = document.getElementById('introConfirm');
-    const transformControls = document.getElementById('transformControls');
-    const sizeSlider = document.getElementById('sizeSlider');
-    const rotateSlider = document.getElementById('rotateSlider');
-    const sizeValue = document.getElementById('sizeValue');
-    const rotateValue = document.getElementById('rotateValue');
-    const closeTransform = document.getElementById('closeTransform');
 
     let toastTimer = null;
 
@@ -1007,60 +940,59 @@
         }
     }
 
-    function getIconHtml(key) {
-        const imgFile = ITEM_IMAGES[key];
-        if (imgFile) {
-            return `<img src="${imgFile}" alt="${key}" style="width:64px;height:64px;object-fit:contain;">`;
-        }
-        return '📦';
+    function getVariantIcon(key, index) {
+        const variants = ITEM_VARIANTS[key];
+        if (!variants) return ICON_MAP[key] || '📦';
+        const v = variants.variants[index % variants.variants.length];
+        return v ? v.icon : ICON_MAP[key] || '📦';
     }
 
     // ===== ITEM INFO =====
     const ITEM_INFO = {
         workbench: {
-            name: 'Workbench',
+            icon: '🔧', name: 'Workbench',
             desc: 'Your main assembly station. This is where you will perform assembly, inspection, and testing tasks.',
             pos: 'Place it FIRST — bottom-left area, as the foundation of your workspace.',
             tip: 'Start here! Everything else builds around this.',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         control: {
-            name: 'Control Panel',
+            icon: '🎛️', name: 'Control Panel',
             desc: 'The command center for your robotic system. Use it to monitor and control all operations.',
             pos: 'Place it after the Workbench — center area, right next to it.',
             tip: 'This is your main interface — keep it close!',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         arm: {
-            name: 'Robotic Arm',
+            icon: '🦾', name: 'Robotic Arm',
             desc: 'The heart of your cobot system! Performs precise tasks like picking, placing, and assembling.',
             pos: 'Place it after the Control Panel — center-right area.',
             tip: 'This is the most important part of your cobot!',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         conveyor: {
-            name: 'Conveyor Belt',
+            icon: '⚙️', name: 'Conveyor Belt',
             desc: 'Moves materials through your workspace. Automates the flow of parts and products.',
             pos: 'Place it after the Robotic Arm — right side, extending outward.',
             tip: 'Think about the flow — materials come in, go out!',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         fence: {
-            name: 'Safety Fence',
+            icon: '🛡️', name: 'Safety Fence',
             desc: 'Keeps workers safe from moving machinery. Defines the work area boundary.',
             pos: 'Place it after the Conveyor Belt — surrounding the work zone.',
             tip: 'Safety first! This is mandatory in any real factory.',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         sign: {
-            name: 'Warning Sign',
+            icon: '⚠️', name: 'Warning Sign',
             desc: 'Reminds everyone that this is a work zone. Safety awareness is key!',
             pos: 'Place it after the Safety Fence — front-left corner, highly visible.',
             tip: 'Place it where everyone can see it!',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         plant: {
-            name: 'Plant',
+            icon: '🌿', name: 'Plant',
             desc: 'Adds some greenery to make the industrial environment feel more welcoming and less stressful.',
             pos: 'Place it anywhere you like! — corner or near the entrance.',
             tip: 'A little green goes a long way!',
@@ -1078,13 +1010,7 @@
 
         pendingItem = itemKey;
         introFaceIcon.textContent = getCurrentFaceEmoji() || '🧑';
-        // 显示图片
-        const imgFile = ITEM_IMAGES[itemKey];
-        if (imgFile) {
-            introItemIcon.innerHTML = `<img src="${imgFile}" style="width:60px;height:60px;object-fit:contain;">`;
-        } else {
-            introItemIcon.textContent = '📦';
-        }
+        introItemIcon.textContent = info.icon;
         introItemName.textContent = info.name;
         introItemDesc.textContent = info.desc;
         introItemPos.textContent = info.pos;
@@ -1106,22 +1032,40 @@
         pendingItem = null;
     }
 
+    // ===== Counter popup with style selection - INDEPENDENT per item type =====
     function renderCounterPopup(itemKey) {
         const current = itemCounts[itemKey] || 0;
         const label = LABELS[itemKey] || itemKey;
-        const imgFile = ITEM_IMAGES[itemKey];
+        const variants = ITEM_VARIANTS[itemKey];
+        const currentVariant = itemVariants[itemKey] || 0;
+
+        let variantHtml = '';
+        if (variants) {
+            variantHtml = `<div class="style-selector-title">Choose style:</div><div class="style-selector">`;
+            variants.variants.forEach((v, idx) => {
+                const active = idx === currentVariant ? 'active' : '';
+                variantHtml += `
+                    <div class="style-option ${active}" data-variant="${idx}">
+                        <span class="style-preview">${v.icon}</span>
+                        <span class="style-label">${v.name}</span>
+                    </div>
+                `;
+            });
+            variantHtml += `</div>`;
+        }
 
         const html = `
             <button class="close-btn" id="popupClose"><i class="fas fa-times"></i> Close</button>
             <h2><i class="fas fa-plus-circle"></i> ${label}</h2>
-            <div class="counter-label">${imgFile ? `<img src="${imgFile}" style="width:40px;height:40px;object-fit:contain;display:block;margin:0 auto 8px;">` : ''}How many ${label} do you want? (max ${MAX_PER_ITEM})</div>
+            <div class="counter-label">How many ${label} do you want? (max ${MAX_PER_ITEM})</div>
             <div class="counter-control">
                 <button class="counter-btn" id="counterDec" ${current <= 0 ? 'disabled' : ''}>−</button>
                 <span class="counter-num" id="counterNum">${current}</span>
                 <button class="counter-btn" id="counterInc" ${current >= MAX_PER_ITEM ? 'disabled' : ''}>+</button>
             </div>
+            ${variantHtml}
             <div class="counter-preview">Currently ${current} in scene</div>
-            <div style="text-align:center;margin-top:12px;color:#4a7a9a;font-size:12px;">💡 Click an item in the scene to resize or rotate it</div>
+            <div style="text-align:center;margin-top:12px;color:#4a7a9a;font-size:12px;">💡 Drag items after placing to reposition them</div>
             <div style="display:flex;justify-content:center;margin-top:12px;gap:12px;">
                 <button class="crystal-btn" id="addToSceneBtn" style="width:auto;padding:8px 24px;font-size:12px;background:rgba(74,138,170,0.15);border-color:rgba(74,138,170,0.3);">
                     Add to Scene
@@ -1130,13 +1074,20 @@
         `;
         renderPopup(html);
 
+        document.querySelectorAll('.style-option').forEach(el => {
+            el.addEventListener('click', function() {
+                const idx = parseInt(this.dataset.variant);
+                itemVariants[itemKey] = idx;
+                renderCounterPopup(itemKey);
+                showToast(`Style changed to ${variants.variants[idx].name}`, 1200);
+            });
+        });
+
         document.getElementById('counterDec').addEventListener('click', function() {
             if (itemCounts[itemKey] > 0) {
                 const idx = itemCounts[itemKey] - 1;
                 const id = itemKey + '-' + idx;
                 delete itemPositions[id];
-                delete itemScales[id];
-                delete itemRotations[id];
                 itemCounts[itemKey]--;
                 renderCounterPopup(itemKey);
                 renderScene();
@@ -1151,13 +1102,11 @@
                 const positions = generatePositions(itemKey, idx + 1);
                 const pos = positions[idx] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
                 itemPositions[id] = pos;
-                if (!itemScales[id]) itemScales[id] = 100;
-                if (!itemRotations[id]) itemRotations[id] = 0;
                 itemCounts[itemKey]++;
                 renderCounterPopup(itemKey);
                 renderScene();
                 updateLibraryStatus();
-                showToast(`Added ${label}`, 1200);
+                showToast(`Added ${LABELS[itemKey]}`, 1200);
             }
         });
 
@@ -1170,13 +1119,11 @@
                     const pos = positions[i] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
                     itemPositions[id] = pos;
                 }
-                if (!itemScales[id]) itemScales[id] = 100;
-                if (!itemRotations[id]) itemRotations[id] = 0;
             }
             renderScene();
             updateLibraryStatus();
             clearPopup();
-            showToast(`${count} ${label} added to scene!`, 1500);
+            showToast(`${count} ${LABELS[itemKey]} added to scene!`, 1500);
         });
 
         document.getElementById('popupClose').addEventListener('click', function() {
@@ -1221,7 +1168,8 @@
 
         ITEM_KEYS.forEach(key => {
             const count = itemCounts[key] || 0;
-            const imgFile = ITEM_IMAGES[key];
+            const variantIdx = itemVariants[key] || 0;
+            const variantIcon = getVariantIcon(key, variantIdx);
             for (let i = 0; i < count; i++) {
                 const id = key + '-' + i;
                 let pos = itemPositions[id];
@@ -1230,15 +1178,9 @@
                     pos = positions[i] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
                     itemPositions[id] = pos;
                 }
-                if (!itemScales[id]) itemScales[id] = 100;
-                if (!itemRotations[id]) itemRotations[id] = 0;
-                const scale = itemScales[id] / 100;
-                const rotate = itemRotations[id];
-                const isSelected = (selectedObjectId === id);
-                const imgSize = Math.round(64 * scale);
-                html += `<div class="scene-object ${isSelected ? 'selected' : ''}" data-id="${id}" data-key="${key}" data-index="${i}" 
-                          style="left:${pos.left}; bottom:${pos.bottom}; z-index:2; cursor:pointer; transform: rotate(${rotate}deg);">
-                    <img src="${imgFile}" alt="${key}" style="width:${imgSize}px;height:${imgSize}px;object-fit:contain;display:block;pointer-events:none;">
+                html += `<div class="scene-object" data-id="${id}" data-key="${key}" data-index="${i}" 
+                          style="left:${pos.left}; bottom:${pos.bottom}; font-size:40px; z-index:2; cursor:grab;">
+                    ${variantIcon}
                 </div>`;
             }
         });
@@ -1258,89 +1200,10 @@
         document.querySelectorAll('.scene-object').forEach(el => {
             el.addEventListener('mousedown', startDrag);
             el.addEventListener('touchstart', startDragTouch, { passive: false });
-            el.addEventListener('click', function(e) {
-                e.stopPropagation();
-                selectObject(this.dataset.id);
-            });
         });
     }
 
     function updateScene() { renderScene(); }
-
-    // ===== Select Object =====
-    function selectObject(id) {
-        if (!id) return;
-        const el = document.querySelector(`.scene-object[data-id="${id}"]`);
-        if (!el) return;
-
-        if (selectedObjectId) {
-            const prev = document.querySelector(`.scene-object[data-id="${selectedObjectId}"]`);
-            if (prev) prev.classList.remove('selected');
-        }
-
-        if (selectedObjectId === id) {
-            selectedObjectId = null;
-            transformControls.classList.remove('show');
-            return;
-        }
-
-        selectedObjectId = id;
-        el.classList.add('selected');
-
-        const scale = itemScales[id] || 100;
-        const rotate = itemRotations[id] || 0;
-        sizeSlider.value = scale;
-        rotateSlider.value = rotate;
-        sizeValue.textContent = Math.round(scale) + '%';
-        rotateValue.textContent = Math.round(rotate) + '°';
-        transformControls.classList.add('show');
-    }
-
-    // ===== Transform Controls =====
-    sizeSlider.addEventListener('input', function() {
-        if (!selectedObjectId) return;
-        const val = parseInt(this.value);
-        itemScales[selectedObjectId] = val;
-        sizeValue.textContent = Math.round(val) + '%';
-        const el = document.querySelector(`.scene-object[data-id="${selectedObjectId}"]`);
-        if (el) {
-            const img = el.querySelector('img');
-            if (img) {
-                const size = Math.round(64 * val / 100);
-                img.style.width = size + 'px';
-                img.style.height = size + 'px';
-            }
-        }
-    });
-
-    rotateSlider.addEventListener('input', function() {
-        if (!selectedObjectId) return;
-        const val = parseInt(this.value);
-        itemRotations[selectedObjectId] = val;
-        rotateValue.textContent = Math.round(val) + '°';
-        const el = document.querySelector(`.scene-object[data-id="${selectedObjectId}"]`);
-        if (el) {
-            el.style.transform = 'rotate(' + val + 'deg)';
-        }
-    });
-
-    closeTransform.addEventListener('click', function() {
-        if (selectedObjectId) {
-            const el = document.querySelector(`.scene-object[data-id="${selectedObjectId}"]`);
-            if (el) el.classList.remove('selected');
-            selectedObjectId = null;
-        }
-        transformControls.classList.remove('show');
-    });
-
-    document.addEventListener('click', function(e) {
-        if (selectedObjectId && !e.target.closest('.scene-object') && !e.target.closest('.transform-controls')) {
-            const el = document.querySelector(`.scene-object[data-id="${selectedObjectId}"]`);
-            if (el) el.classList.remove('selected');
-            selectedObjectId = null;
-            transformControls.classList.remove('show');
-        }
-    });
 
     // ===== Drag =====
     function startDrag(e) {
@@ -1351,22 +1214,6 @@
         const container = sceneContainer.getBoundingClientRect();
         const offsetX = e.clientX - rect.left;
         const offsetY = e.clientY - rect.top;
-
-        if (selectedObjectId !== id) {
-            if (selectedObjectId) {
-                const prev = document.querySelector(`.scene-object[data-id="${selectedObjectId}"]`);
-                if (prev) prev.classList.remove('selected');
-            }
-            selectedObjectId = id;
-            el.classList.add('selected');
-            transformControls.classList.add('show');
-            const scale = itemScales[id] || 100;
-            const rotate = itemRotations[id] || 0;
-            sizeSlider.value = scale;
-            rotateSlider.value = rotate;
-            sizeValue.textContent = Math.round(scale) + '%';
-            rotateValue.textContent = Math.round(rotate) + '°';
-        }
 
         dragData = { el, id, offsetX, offsetY, container };
         el.classList.add('dragging');
@@ -1384,22 +1231,6 @@
         const container = sceneContainer.getBoundingClientRect();
         const offsetX = touch.clientX - rect.left;
         const offsetY = touch.clientY - rect.top;
-
-        if (selectedObjectId !== id) {
-            if (selectedObjectId) {
-                const prev = document.querySelector(`.scene-object[data-id="${selectedObjectId}"]`);
-                if (prev) prev.classList.remove('selected');
-            }
-            selectedObjectId = id;
-            el.classList.add('selected');
-            transformControls.classList.add('show');
-            const scale = itemScales[id] || 100;
-            const rotate = itemRotations[id] || 0;
-            sizeSlider.value = scale;
-            rotateSlider.value = rotate;
-            sizeValue.textContent = Math.round(scale) + '%';
-            rotateValue.textContent = Math.round(rotate) + '°';
-        }
 
         dragData = { el, id, offsetX, offsetY, container };
         el.classList.add('dragging');
@@ -1482,7 +1313,7 @@
     }
 
     // ============================================================
-    // GENDER & FACE
+    // GENDER & FACE - NO CONFIRM BUTTON
     // ============================================================
     function renderGender() {
         hideItemIntro();
@@ -1565,16 +1396,12 @@
         previewHtml += `<div class="factory-scene" style="position:relative;height:160px;">`;
         ITEM_KEYS.forEach(key => {
             const count = itemCounts[key] || 0;
-            const imgFile = ITEM_IMAGES[key];
+            const variantIdx = itemVariants[key] || 0;
+            const variantIcon = getVariantIcon(key, variantIdx);
             for (let i = 0; i < count; i++) {
                 const id = key + '-' + i;
                 const pos = itemPositions[id] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
-                const scale = (itemScales[id] || 100) / 100;
-                const rotate = itemRotations[id] || 0;
-                const size = Math.round(32 * scale);
-                previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; z-index:2; pointer-events:none; transform: rotate(${rotate}deg);">
-                    <img src="${imgFile}" style="width:${size}px;height:${size}px;object-fit:contain;display:block;">
-                </div>`;
+                previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; font-size:32px; z-index:2; pointer-events:none;">${variantIcon}</div>`;
             }
         });
         const faceEmoji = getCurrentFaceEmoji();
@@ -1716,17 +1543,16 @@
     function getSmartReply(msg) {
         const q = msg.toLowerCase().trim();
         if (q.match(/^(hi|hello|hey|greetings)/i)) return "Hello! 👋 I'm your Helix Guide assistant. How can I help you?";
-        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant' in the Library to add plants!";
-        if (q.match(/how to place|how do i place|how can i place|add object/i)) return "🔧 Click any item in the Library — I'll introduce it to you first! Then you can add up to 5 of each type.";
+        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant' in the Library. You can choose from 4 different plant styles!";
+        if (q.match(/how to place|how do i place|how can i place|add object/i)) return "🔧 Click any item in the Library — I'll introduce it to you first! Then you can choose style and quantity (max 5) before adding to the scene. Each item type keeps its own count!";
+        if (q.match(/style|variant|change style|different/i)) return "🎨 Each item has 4 different styles! Click the style options in the popup to switch between them.";
         if (q.match(/drag|move|reposition/i)) return "✋ You can drag any item in the scene by clicking and holding it, then moving it to a new position!";
-        if (q.match(/resize|scale|size|zoom|big|small|larger|smaller/i)) return "📐 Click any item in the scene to select it, then use the Size slider at the bottom to resize it!";
-        if (q.match(/rotate|spin|turn|angle|rotate/i)) return "🔄 Click any item in the scene to select it, then use the Rotate slider at the bottom to rotate it!";
-        if (q.match(/workbench/i)) return "🛠️ Workbench is your primary workstation. Click it in the Library to add one!";
-        if (q.match(/control panel/i)) return "🎛️ Control Panel is the command center. Click it in the Library to add one!";
-        if (q.match(/robotic arm|arm/i)) return "🦾 Robotic Arm is the heart of the cobot system. Click it in the Library to add one!";
-        if (q.match(/conveyor|belt/i)) return "⚙️ Conveyor Belt moves materials. Click it in the Library to add one!";
-        if (q.match(/fence|safety/i)) return "🛡️ Safety Fence keeps workers safe. Click it in the Library to add one!";
-        if (q.match(/sign|warning/i)) return "⚠️ Warning Sign reminds about safety. Click it in the Library to add one!";
+        if (q.match(/workbench/i)) return "🛠️ The Workbench has 4 styles: Standard, Heavy, Precision, and Smart.";
+        if (q.match(/control panel/i)) return "🎛️ The Control Panel has 4 styles: Standard, Digital, Vintage, and Touch.";
+        if (q.match(/robotic arm|arm/i)) return "🦾 The Robotic Arm has 4 styles: Standard, Humanoid, Industrial, and Advanced.";
+        if (q.match(/conveyor|belt/i)) return "⚙️ The Conveyor Belt has 4 styles: Standard, Heavy, Package, and Curved.";
+        if (q.match(/fence|safety/i)) return "🛡️ The Safety Fence has 4 styles: Standard, Heavy, Red, and Locked.";
+        if (q.match(/sign|warning/i)) return "⚠️ The Warning Sign has 4 styles: Standard, Hazard, Electric, and Notice.";
         if (q.match(/next|what do i do|what should i do|guide me|what now/i)) {
             const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
             if (total === 0) return "📋 First, customize your avatar (Gender → Face). Then click any item in the Library to start building!";
@@ -1742,7 +1568,7 @@
         if (q.match(/gender|male|female|face|avatar|appearance/i)) return "👤 Go to Gender → select Male/Female → click a face to select it instantly!";
         if (q.match(/thank|thanks|thx|appreciate/i)) return "You're welcome! 😊 Keep building!";
         if (q.match(/help|what can you do|capabilities/i)) {
-            return "🤖 I can help with:\n• Customizing your avatar (Gender → click a face!)\n• Adding items (max 5 each!)\n• Click any item in the scene to resize or rotate it!\n• Dragging items anywhere\n• Saving with a code\n• Switching views\n• Resetting workspace\n\nTry it out! 🚀";
+            return "🤖 I can help with:\n• Customizing your avatar (Gender → click a face!)\n• Adding items with style & quantity control\n• 4 different styles per item\n• Dragging items anywhere\n• Saving with a code\n• Switching views\n• Resetting workspace\n\nTry it out! 🚀";
         }
         return "🤔 Try customizing your avatar first: Gender → click a face. Then click items in the Library to add them!";
     }
@@ -1800,10 +1626,6 @@
     function resetAll() {
         ITEM_KEYS.forEach(key => { itemCounts[key] = 0; });
         itemPositions = {};
-        itemScales = {};
-        itemRotations = {};
-        selectedObjectId = null;
-        transformControls.classList.remove('show');
         renderScene();
         updateLibraryStatus();
         showToast('🔄 All objects removed. Ready to rebuild!', 2000);
@@ -1851,13 +1673,9 @@
     document.getElementById('btnCreateEnv').addEventListener('click', function() {
         ITEM_KEYS.forEach(key => { itemCounts[key] = 0; });
         itemPositions = {};
-        itemScales = {};
-        itemRotations = {};
         state.selectedGender = null; state.selectedFace = null;
         state.faceSelected = false;
         state.currentView = 'first'; state.codeInput = []; state.savedCode = null;
-        selectedObjectId = null;
-        transformControls.classList.remove('show');
         enterMain();
         clearPopup();
         hideItemIntro();
@@ -1896,8 +1714,7 @@
     window.__state = state;
     window.__itemCounts = itemCounts;
     window.__itemPositions = itemPositions;
-    window.__itemScales = itemScales;
-    window.__itemRotations = itemRotations;
+    window.__itemVariants = itemVariants;
 })();
 </script>
 </body>
