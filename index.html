@@ -187,47 +187,29 @@
         }
         .scene-object {
             position: absolute;
-            pointer-events: auto;
-            z-index: 2;
-            cursor: grab;
-            touch-action: none;
+            pointer-events: auto; z-index: 2; cursor: grab;
+            padding: 4px; border-radius: 8px; touch-action: none;
             transition: transform 0.1s ease;
+            transform-origin: center center;
         }
         .scene-object img {
-            width: 52px;
-            height: 52px;
+            width: 64px;
+            height: 64px;
             object-fit: contain;
             display: block;
             pointer-events: none;
-            transition: all 0.2s ease;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+            transition: width 0.1s ease, height 0.1s ease;
         }
-        .scene-object:hover img {
-            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.2));
-        }
-        .scene-object.dragging img {
-            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.25));
-        }
+        .scene-object:hover { filter: drop-shadow(0 8px 20px rgba(0,0,0,0.08)); }
         .scene-object.dragging {
-            z-index: 10;
-            opacity: 0.85;
+            z-index: 10; opacity: 0.85; transform: scale(1.05);
+            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
             cursor: grabbing;
         }
         .scene-object.selected {
             outline: 3px solid rgba(74,138,170,0.5);
-            outline-offset: 6px;
-            border-radius: 8px;
-        }
-        .scene-object .transform-handle {
-            position: absolute;
-            bottom: -20px;
-            right: -20px;
-            width: 16px;
-            height: 16px;
-            background: rgba(74,138,170,0.6);
-            border-radius: 50%;
-            cursor: pointer;
-            pointer-events: auto;
+            outline-offset: 4px;
+            border-radius: 12px;
         }
 
         .dh-corner {
@@ -248,43 +230,41 @@
             font-family: 'Orbitron', sans-serif; z-index: 3;
         }
 
-        /* ===== TRANSFORM CONTROLS - 固定在右侧 ===== */
-        .transform-panel {
+        /* ===== TRANSFORM CONTROLS ===== */
+        .transform-controls {
             position: absolute;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 20;
             background: rgba(255,255,255,0.3);
             backdrop-filter: blur(20px);
             border: 2px solid rgba(255,255,255,0.4);
             border-radius: 20px;
-            padding: 16px 20px;
+            padding: 14px 24px;
             display: none;
-            flex-direction: column;
             align-items: center;
-            gap: 14px;
+            gap: 24px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.06);
             color: #1a3a5a;
             font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
-            min-width: 80px;
+            font-size: 11px;
+            min-width: 300px;
+            justify-content: center;
         }
-        .transform-panel.show { display: flex; }
-        .transform-panel .ctrl-group {
+        .transform-controls.show { display: flex; }
+        .transform-controls .ctrl-group {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 4px;
-            width: 100%;
+            gap: 8px;
         }
-        .transform-panel .ctrl-group label {
-            font-size: 9px;
-            opacity: 0.5;
+        .transform-controls .ctrl-group label {
+            font-size: 10px;
+            opacity: 0.6;
             letter-spacing: 1px;
         }
-        .transform-panel input[type="range"] {
-            width: 60px;
+        .transform-controls input[type="range"] {
+            width: 80px;
             height: 4px;
             -webkit-appearance: none;
             appearance: none;
@@ -292,49 +272,44 @@
             border-radius: 4px;
             outline: none;
         }
-        .transform-panel input[type="range"]::-webkit-slider-thumb {
+        .transform-controls input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             background: rgba(74,138,170,0.4);
             border: 2px solid rgba(74,138,170,0.6);
             cursor: pointer;
         }
-        .transform-panel input[type="range"]::-moz-range-thumb {
-            width: 12px;
-            height: 12px;
+        .transform-controls input[type="range"]::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             background: rgba(74,138,170,0.4);
             border: 2px solid rgba(74,138,170,0.6);
             cursor: pointer;
         }
-        .transform-panel .ctrl-value {
-            font-size: 11px;
+        .transform-controls .ctrl-value {
+            font-size: 12px;
             font-weight: 600;
+            min-width: 30px;
+            text-align: center;
             color: #1a3a5a;
         }
-        .transform-panel .close-transform {
+        .transform-controls .close-transform {
             background: rgba(255,255,255,0.2);
             border: 2px solid rgba(255,255,255,0.3);
             border-radius: 40px;
             padding: 2px 12px;
-            font-size: 9px;
+            font-size: 10px;
             font-family: 'Orbitron', sans-serif;
             color: #1a3a5a;
             cursor: pointer;
             transition: 0.2s;
-            margin-top: 4px;
         }
-        .transform-panel .close-transform:hover {
+        .transform-controls .close-transform:hover {
             background: rgba(255,255,255,0.4);
-        }
-        .transform-panel .selected-label {
-            font-size: 9px;
-            opacity: 0.4;
-            text-align: center;
-            margin-bottom: 2px;
         }
 
         .intro-overlay {
@@ -358,7 +333,16 @@
         .intro-popup .intro-body {
             font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; line-height: 1.7; color: #1a3a5a;
         }
-        .intro-popup .intro-body .item-icon-large { font-size: 40px; display: block; margin-bottom: 4px; }
+        .intro-popup .intro-body .item-icon-large {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .intro-popup .intro-body .item-icon-large img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
         .intro-popup .intro-body .item-name { font-weight: 700; font-size: 16px; font-family: 'Orbitron', sans-serif; }
         .intro-popup .intro-body .item-desc { margin: 4px 0; }
         .intro-popup .intro-body .item-pos { opacity: 0.7; font-size: 12px; }
@@ -674,8 +658,8 @@
             .library { width: 220px; min-width: 220px; }
             .lib-item { min-height: 36px; height: 36px; font-size: 11px; padding: 6px 10px; }
             .intro-popup { max-width: 400px; padding: 20px 24px; }
-            .transform-panel { right: 16px; padding: 12px 14px; min-width: 60px; }
-            .transform-panel input[type="range"] { width: 40px; }
+            .transform-controls { min-width: 240px; padding: 12px 16px; gap: 16px; }
+            .transform-controls input[type="range"] { width: 60px; }
         }
         @media (max-width: 900px) {
             .app-container { height: auto; min-height: 680px; border-radius: 24px; }
@@ -688,10 +672,10 @@
             .intro-popup { max-width: 340px; padding: 16px 18px; }
             .intro-popup .intro-body { font-size: 12px; }
             .intro-popup .placement-diagram { font-size: 12px; }
-            .transform-panel { right: 12px; padding: 10px 12px; min-width: 50px; }
-            .transform-panel input[type="range"] { width: 30px; }
-            .transform-panel .ctrl-group label { font-size: 8px; }
-            .transform-panel .ctrl-value { font-size: 9px; }
+            .transform-controls { min-width: 180px; padding: 10px 12px; gap: 10px; flex-wrap: wrap; bottom: 70px; }
+            .transform-controls input[type="range"] { width: 40px; }
+            .transform-controls .ctrl-group label { font-size: 8px; }
+            .transform-controls .ctrl-value { font-size: 10px; min-width: 20px; }
         }
         @media (max-width: 600px) {
             .library { width: 140px; min-width: 140px; padding: 8px 6px; }
@@ -706,11 +690,11 @@
             .intro-popup { max-width: 300px; padding: 14px 16px; }
             .intro-popup .intro-body { font-size: 11px; }
             .intro-popup .intro-actions button { font-size: 10px; padding: 6px 14px; }
-            .transform-panel { right: 8px; padding: 8px 10px; min-width: 40px; }
-            .transform-panel input[type="range"] { width: 20px; }
-            .transform-panel .ctrl-group label { font-size: 7px; }
-            .transform-panel .ctrl-value { font-size: 8px; }
-            .transform-panel .close-transform { font-size: 8px; padding: 1px 8px; }
+            .transform-controls { min-width: 150px; padding: 8px 10px; gap: 8px; bottom: 60px; }
+            .transform-controls input[type="range"] { width: 30px; }
+            .transform-controls .ctrl-group label { font-size: 7px; }
+            .transform-controls .ctrl-value { font-size: 9px; min-width: 16px; }
+            .transform-controls .close-transform { font-size: 8px; padding: 1px 8px; }
         }
     </style>
 </head>
@@ -813,7 +797,7 @@
                     <span>Assistant</span>
                 </div>
                 <div class="intro-body" id="introBody">
-                    <span class="item-icon-large" id="introItemIcon">🔧</span>
+                    <div class="item-icon-large" id="introItemIcon">🔧</div>
                     <div class="item-name" id="introItemName">Workbench</div>
                     <div class="item-desc" id="introItemDesc">Your main assembly station.</div>
                     <div class="item-pos" id="introItemPos">📍 Place it first, bottom-left area.</div>
@@ -845,9 +829,8 @@
             </div>
         </div>
 
-        <!-- Transform Panel - 固定在右侧 -->
-        <div class="transform-panel" id="transformPanel">
-            <div class="selected-label" id="selectedLabel">Select an item</div>
+        <!-- Transform Controls -->
+        <div class="transform-controls" id="transformControls">
             <div class="ctrl-group">
                 <label>Size</label>
                 <input type="range" id="sizeSlider" min="30" max="200" value="100">
@@ -914,24 +897,32 @@
 <script>
 (function() {
     // ============================================================
-    // ITEM IMAGE MAPPING - 替换成你的图片
-    // 1.png = Workbench, 2.png = Control Panel, 3.png = Robotic Arm
-    // 4.png = Conveyor Belt, 5.png = Safety Fence, 6.png = Warning Sign, 7.png = Plant
+    // IMAGE MAPPING - 用你的图片替换emoji
+    // 图片对应关系：
+    // 图2.png → Workbench
+    // 图3.png → Control Panel
+    // 图4.png → Robotic Arm
+    // 图5.png → Conveyor Belt
+    // 图6.png → Safety Fence
+    // 图7.png → Warning Sign
+    // 图8.png → Plant
     // ============================================================
     const ITEM_IMAGES = {
-        workbench: '1.png',
-        control: '2.png',
-        arm: '3.png',
-        conveyor: '4.png',
-        fence: '5.png',
-        sign: '6.png',
-        plant: '7.png'
+        workbench: '图2.png',
+        control: '图3.png',
+        arm: '图4.png',
+        conveyor: '图5.png',
+        fence: '图6.png',
+        sign: '图7.png',
+        plant: '图8.png'
     };
+
+    const MAX_PER_ITEM = 5;
+    const ITEM_KEYS = ['workbench','control','arm','conveyor','fence','sign','plant'];
     const LABELS = {
         workbench:'Workbench', control:'Control Panel', arm:'Robotic Arm',
         conveyor:'Conveyor Belt', fence:'Safety Fence', sign:'Warning Sign', plant:'Plant'
     };
-    const ITEM_KEYS = ['workbench','control','arm','conveyor','fence','sign','plant'];
 
     let itemCounts = {};
     let itemPositions = {};
@@ -977,13 +968,12 @@
     const introDiagramRow = document.getElementById('introDiagramRow');
     const introCancel = document.getElementById('introCancel');
     const introConfirm = document.getElementById('introConfirm');
-    const transformPanel = document.getElementById('transformPanel');
+    const transformControls = document.getElementById('transformControls');
     const sizeSlider = document.getElementById('sizeSlider');
     const rotateSlider = document.getElementById('rotateSlider');
     const sizeValue = document.getElementById('sizeValue');
     const rotateValue = document.getElementById('rotateValue');
     const closeTransform = document.getElementById('closeTransform');
-    const selectedLabel = document.getElementById('selectedLabel');
 
     let toastTimer = null;
 
@@ -1017,56 +1007,60 @@
         }
     }
 
-    function getItemImage(key) {
-        return ITEM_IMAGES[key] || '1.png';
+    function getIconHtml(key) {
+        const imgFile = ITEM_IMAGES[key];
+        if (imgFile) {
+            return `<img src="${imgFile}" alt="${key}" style="width:64px;height:64px;object-fit:contain;">`;
+        }
+        return '📦';
     }
 
     // ===== ITEM INFO =====
     const ITEM_INFO = {
         workbench: {
-            icon: '🔧', name: 'Workbench',
+            name: 'Workbench',
             desc: 'Your main assembly station. This is where you will perform assembly, inspection, and testing tasks.',
             pos: 'Place it FIRST — bottom-left area, as the foundation of your workspace.',
             tip: 'Start here! Everything else builds around this.',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         control: {
-            icon: '🎛️', name: 'Control Panel',
+            name: 'Control Panel',
             desc: 'The command center for your robotic system. Use it to monitor and control all operations.',
             pos: 'Place it after the Workbench — center area, right next to it.',
             tip: 'This is your main interface — keep it close!',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         arm: {
-            icon: '🦾', name: 'Robotic Arm',
+            name: 'Robotic Arm',
             desc: 'The heart of your cobot system! Performs precise tasks like picking, placing, and assembling.',
             pos: 'Place it after the Control Panel — center-right area.',
             tip: 'This is the most important part of your cobot!',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         conveyor: {
-            icon: '⚙️', name: 'Conveyor Belt',
+            name: 'Conveyor Belt',
             desc: 'Moves materials through your workspace. Automates the flow of parts and products.',
             pos: 'Place it after the Robotic Arm — right side, extending outward.',
             tip: 'Think about the flow — materials come in, go out!',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         fence: {
-            icon: '🛡️', name: 'Safety Fence',
+            name: 'Safety Fence',
             desc: 'Keeps workers safe from moving machinery. Defines the work area boundary.',
             pos: 'Place it after the Conveyor Belt — surrounding the work zone.',
             tip: 'Safety first! This is mandatory in any real factory.',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         sign: {
-            icon: '⚠️', name: 'Warning Sign',
+            name: 'Warning Sign',
             desc: 'Reminds everyone that this is a work zone. Safety awareness is key!',
             pos: 'Place it after the Safety Fence — front-left corner, highly visible.',
             tip: 'Place it where everyone can see it!',
             diagram: '🔧 → 🎛️ → 🦾 → ⚙️ → 🛡️ → ⚠️ → 🌿'
         },
         plant: {
-            icon: '🌿', name: 'Plant',
+            name: 'Plant',
             desc: 'Adds some greenery to make the industrial environment feel more welcoming and less stressful.',
             pos: 'Place it anywhere you like! — corner or near the entrance.',
             tip: 'A little green goes a long way!',
@@ -1084,7 +1078,13 @@
 
         pendingItem = itemKey;
         introFaceIcon.textContent = getCurrentFaceEmoji() || '🧑';
-        introItemIcon.textContent = info.icon;
+        // 显示图片
+        const imgFile = ITEM_IMAGES[itemKey];
+        if (imgFile) {
+            introItemIcon.innerHTML = `<img src="${imgFile}" style="width:60px;height:60px;object-fit:contain;">`;
+        } else {
+            introItemIcon.textContent = '📦';
+        }
         introItemName.textContent = info.name;
         introItemDesc.textContent = info.desc;
         introItemPos.textContent = info.pos;
@@ -1106,20 +1106,19 @@
         pendingItem = null;
     }
 
-    // ===== Counter popup =====
     function renderCounterPopup(itemKey) {
         const current = itemCounts[itemKey] || 0;
         const label = LABELS[itemKey] || itemKey;
-        const img = getItemImage(itemKey);
+        const imgFile = ITEM_IMAGES[itemKey];
 
         const html = `
             <button class="close-btn" id="popupClose"><i class="fas fa-times"></i> Close</button>
             <h2><i class="fas fa-plus-circle"></i> ${label}</h2>
-            <div class="counter-label"><img src="${img}" style="width:40px;height:40px;object-fit:contain;display:inline-block;vertical-align:middle;"> How many ${label} do you want? (max 5)</div>
+            <div class="counter-label">${imgFile ? `<img src="${imgFile}" style="width:40px;height:40px;object-fit:contain;display:block;margin:0 auto 8px;">` : ''}How many ${label} do you want? (max ${MAX_PER_ITEM})</div>
             <div class="counter-control">
                 <button class="counter-btn" id="counterDec" ${current <= 0 ? 'disabled' : ''}>−</button>
                 <span class="counter-num" id="counterNum">${current}</span>
-                <button class="counter-btn" id="counterInc" ${current >= 5 ? 'disabled' : ''}>+</button>
+                <button class="counter-btn" id="counterInc" ${current >= MAX_PER_ITEM ? 'disabled' : ''}>+</button>
             </div>
             <div class="counter-preview">Currently ${current} in scene</div>
             <div style="text-align:center;margin-top:12px;color:#4a7a9a;font-size:12px;">💡 Click an item in the scene to resize or rotate it</div>
@@ -1146,7 +1145,7 @@
         });
 
         document.getElementById('counterInc').addEventListener('click', function() {
-            if (itemCounts[itemKey] < 5) {
+            if (itemCounts[itemKey] < MAX_PER_ITEM) {
                 const idx = itemCounts[itemKey];
                 const id = itemKey + '-' + idx;
                 const positions = generatePositions(itemKey, idx + 1);
@@ -1158,7 +1157,7 @@
                 renderCounterPopup(itemKey);
                 renderScene();
                 updateLibraryStatus();
-                showToast(`Added ${LABELS[itemKey]}`, 1200);
+                showToast(`Added ${label}`, 1200);
             }
         });
 
@@ -1177,7 +1176,7 @@
             renderScene();
             updateLibraryStatus();
             clearPopup();
-            showToast(`${count} ${LABELS[itemKey]} added to scene!`, 1500);
+            showToast(`${count} ${label} added to scene!`, 1500);
         });
 
         document.getElementById('popupClose').addEventListener('click', function() {
@@ -1222,7 +1221,7 @@
 
         ITEM_KEYS.forEach(key => {
             const count = itemCounts[key] || 0;
-            const img = getItemImage(key);
+            const imgFile = ITEM_IMAGES[key];
             for (let i = 0; i < count; i++) {
                 const id = key + '-' + i;
                 let pos = itemPositions[id];
@@ -1236,9 +1235,10 @@
                 const scale = itemScales[id] / 100;
                 const rotate = itemRotations[id];
                 const isSelected = (selectedObjectId === id);
+                const imgSize = Math.round(64 * scale);
                 html += `<div class="scene-object ${isSelected ? 'selected' : ''}" data-id="${id}" data-key="${key}" data-index="${i}" 
-                          style="left:${pos.left}; bottom:${pos.bottom}; transform: rotate(${rotate}deg); cursor:pointer; z-index:2;">
-                    <img src="${img}" style="width:${52 * scale}px; height:${52 * scale}px; object-fit:contain; display:block; pointer-events:none;">
+                          style="left:${pos.left}; bottom:${pos.bottom}; z-index:2; cursor:pointer; transform: rotate(${rotate}deg);">
+                    <img src="${imgFile}" alt="${key}" style="width:${imgSize}px;height:${imgSize}px;object-fit:contain;display:block;pointer-events:none;">
                 </div>`;
             }
         });
@@ -1280,7 +1280,7 @@
 
         if (selectedObjectId === id) {
             selectedObjectId = null;
-            transformPanel.classList.remove('show');
+            transformControls.classList.remove('show');
             return;
         }
 
@@ -1293,8 +1293,7 @@
         rotateSlider.value = rotate;
         sizeValue.textContent = Math.round(scale) + '%';
         rotateValue.textContent = Math.round(rotate) + '°';
-        selectedLabel.textContent = LABELS[el.dataset.key] || 'Item';
-        transformPanel.classList.add('show');
+        transformControls.classList.add('show');
     }
 
     // ===== Transform Controls =====
@@ -1307,9 +1306,9 @@
         if (el) {
             const img = el.querySelector('img');
             if (img) {
-                const baseSize = 52;
-                img.style.width = (baseSize * val / 100) + 'px';
-                img.style.height = (baseSize * val / 100) + 'px';
+                const size = Math.round(64 * val / 100);
+                img.style.width = size + 'px';
+                img.style.height = size + 'px';
             }
         }
     });
@@ -1331,15 +1330,15 @@
             if (el) el.classList.remove('selected');
             selectedObjectId = null;
         }
-        transformPanel.classList.remove('show');
+        transformControls.classList.remove('show');
     });
 
     document.addEventListener('click', function(e) {
-        if (selectedObjectId && !e.target.closest('.scene-object') && !e.target.closest('.transform-panel')) {
+        if (selectedObjectId && !e.target.closest('.scene-object') && !e.target.closest('.transform-controls')) {
             const el = document.querySelector(`.scene-object[data-id="${selectedObjectId}"]`);
             if (el) el.classList.remove('selected');
             selectedObjectId = null;
-            transformPanel.classList.remove('show');
+            transformControls.classList.remove('show');
         }
     });
 
@@ -1360,19 +1359,17 @@
             }
             selectedObjectId = id;
             el.classList.add('selected');
-            transformPanel.classList.add('show');
+            transformControls.classList.add('show');
             const scale = itemScales[id] || 100;
             const rotate = itemRotations[id] || 0;
             sizeSlider.value = scale;
             rotateSlider.value = rotate;
             sizeValue.textContent = Math.round(scale) + '%';
             rotateValue.textContent = Math.round(rotate) + '°';
-            selectedLabel.textContent = LABELS[el.dataset.key] || 'Item';
         }
 
         dragData = { el, id, offsetX, offsetY, container };
         el.classList.add('dragging');
-        el.style.cursor = 'grabbing';
 
         document.addEventListener('mousemove', onDrag);
         document.addEventListener('mouseup', endDrag);
@@ -1395,19 +1392,17 @@
             }
             selectedObjectId = id;
             el.classList.add('selected');
-            transformPanel.classList.add('show');
+            transformControls.classList.add('show');
             const scale = itemScales[id] || 100;
             const rotate = itemRotations[id] || 0;
             sizeSlider.value = scale;
             rotateSlider.value = rotate;
             sizeValue.textContent = Math.round(scale) + '%';
             rotateValue.textContent = Math.round(rotate) + '°';
-            selectedLabel.textContent = LABELS[el.dataset.key] || 'Item';
         }
 
         dragData = { el, id, offsetX, offsetY, container };
         el.classList.add('dragging');
-        el.style.cursor = 'grabbing';
 
         document.addEventListener('touchmove', onDragTouch, { passive: false });
         document.addEventListener('touchend', endDragTouch, { passive: false });
@@ -1442,7 +1437,6 @@
     function endDrag() {
         if (dragData) {
             dragData.el.classList.remove('dragging');
-            dragData.el.style.cursor = 'pointer';
             dragData = null;
         }
         document.removeEventListener('mousemove', onDrag);
@@ -1452,7 +1446,6 @@
     function endDragTouch() {
         if (dragData) {
             dragData.el.classList.remove('dragging');
-            dragData.el.style.cursor = 'pointer';
             dragData = null;
         }
         document.removeEventListener('touchmove', onDragTouch);
@@ -1572,14 +1565,15 @@
         previewHtml += `<div class="factory-scene" style="position:relative;height:160px;">`;
         ITEM_KEYS.forEach(key => {
             const count = itemCounts[key] || 0;
-            const img = getItemImage(key);
+            const imgFile = ITEM_IMAGES[key];
             for (let i = 0; i < count; i++) {
                 const id = key + '-' + i;
                 const pos = itemPositions[id] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
                 const scale = (itemScales[id] || 100) / 100;
                 const rotate = itemRotations[id] || 0;
-                previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; transform: rotate(${rotate}deg); z-index:2; pointer-events:none;">
-                    <img src="${img}" style="width:${32 * scale}px; height:${32 * scale}px; object-fit:contain; display:block; pointer-events:none;">
+                const size = Math.round(32 * scale);
+                previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; z-index:2; pointer-events:none; transform: rotate(${rotate}deg);">
+                    <img src="${imgFile}" style="width:${size}px;height:${size}px;object-fit:contain;display:block;">
                 </div>`;
             }
         });
@@ -1722,17 +1716,17 @@
     function getSmartReply(msg) {
         const q = msg.toLowerCase().trim();
         if (q.match(/^(hi|hello|hey|greetings)/i)) return "Hello! 👋 I'm your Helix Guide assistant. How can I help you?";
-        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant' in the Library to add plants to your scene!";
+        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant' in the Library to add plants!";
         if (q.match(/how to place|how do i place|how can i place|add object/i)) return "🔧 Click any item in the Library — I'll introduce it to you first! Then you can add up to 5 of each type.";
         if (q.match(/drag|move|reposition/i)) return "✋ You can drag any item in the scene by clicking and holding it, then moving it to a new position!";
-        if (q.match(/resize|scale|size|zoom|big|small|larger|smaller/i)) return "📐 Click any item in the scene to select it, then use the Size slider on the right panel to resize it!";
-        if (q.match(/rotate|spin|turn|angle|rotate/i)) return "🔄 Click any item in the scene to select it, then use the Rotate slider on the right panel to rotate it!";
-        if (q.match(/workbench/i)) return "🛠️ The Workbench is your primary workstation. Click it in the Library to add one to your scene!";
-        if (q.match(/control panel/i)) return "🎛️ The Control Panel is the command center. Click it in the Library to add one to your scene!";
-        if (q.match(/robotic arm|arm/i)) return "🦾 The Robotic Arm is the heart of the cobot system. Click it in the Library to add one!";
-        if (q.match(/conveyor|belt/i)) return "⚙️ The Conveyor Belt moves materials. Click it in the Library to add one!";
-        if (q.match(/fence|safety/i)) return "🛡️ The Safety Fence keeps workers safe. Click it in the Library to add one!";
-        if (q.match(/sign|warning/i)) return "⚠️ The Warning Sign reminds everyone about safety. Click it in the Library to add one!";
+        if (q.match(/resize|scale|size|zoom|big|small|larger|smaller/i)) return "📐 Click any item in the scene to select it, then use the Size slider at the bottom to resize it!";
+        if (q.match(/rotate|spin|turn|angle|rotate/i)) return "🔄 Click any item in the scene to select it, then use the Rotate slider at the bottom to rotate it!";
+        if (q.match(/workbench/i)) return "🛠️ Workbench is your primary workstation. Click it in the Library to add one!";
+        if (q.match(/control panel/i)) return "🎛️ Control Panel is the command center. Click it in the Library to add one!";
+        if (q.match(/robotic arm|arm/i)) return "🦾 Robotic Arm is the heart of the cobot system. Click it in the Library to add one!";
+        if (q.match(/conveyor|belt/i)) return "⚙️ Conveyor Belt moves materials. Click it in the Library to add one!";
+        if (q.match(/fence|safety/i)) return "🛡️ Safety Fence keeps workers safe. Click it in the Library to add one!";
+        if (q.match(/sign|warning/i)) return "⚠️ Warning Sign reminds about safety. Click it in the Library to add one!";
         if (q.match(/next|what do i do|what should i do|guide me|what now/i)) {
             const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
             if (total === 0) return "📋 First, customize your avatar (Gender → Face). Then click any item in the Library to start building!";
@@ -1809,7 +1803,7 @@
         itemScales = {};
         itemRotations = {};
         selectedObjectId = null;
-        transformPanel.classList.remove('show');
+        transformControls.classList.remove('show');
         renderScene();
         updateLibraryStatus();
         showToast('🔄 All objects removed. Ready to rebuild!', 2000);
@@ -1863,7 +1857,7 @@
         state.faceSelected = false;
         state.currentView = 'first'; state.codeInput = []; state.savedCode = null;
         selectedObjectId = null;
-        transformPanel.classList.remove('show');
+        transformControls.classList.remove('show');
         enterMain();
         clearPopup();
         hideItemIntro();
