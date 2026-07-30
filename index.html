@@ -190,34 +190,44 @@
             pointer-events: auto;
             z-index: 2;
             cursor: grab;
-            padding: 4px;
-            border-radius: 8px;
             touch-action: none;
             transition: transform 0.1s ease;
-            transform-origin: center center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .scene-object img {
-            width: 100%;
-            height: 100%;
+            width: 52px;
+            height: 52px;
             object-fit: contain;
+            display: block;
             pointer-events: none;
-            user-select: none;
-            -webkit-user-drag: none;
+            transition: all 0.2s ease;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
         }
-        .scene-object:hover { filter: drop-shadow(0 8px 20px rgba(0,0,0,0.08)); }
+        .scene-object:hover img {
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.2));
+        }
+        .scene-object.dragging img {
+            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.25));
+        }
         .scene-object.dragging {
             z-index: 10;
             opacity: 0.85;
-            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
             cursor: grabbing;
         }
         .scene-object.selected {
             outline: 3px solid rgba(74,138,170,0.5);
             outline-offset: 6px;
-            border-radius: 12px;
+            border-radius: 8px;
+        }
+        .scene-object .transform-handle {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 16px;
+            height: 16px;
+            background: rgba(74,138,170,0.6);
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: auto;
         }
 
         .dh-corner {
@@ -238,18 +248,18 @@
             font-family: 'Orbitron', sans-serif; z-index: 3;
         }
 
-        /* ===== TRANSFORM CONTROLS - Right side ===== */
+        /* ===== TRANSFORM CONTROLS - 固定在右侧 ===== */
         .transform-panel {
             position: absolute;
-            right: 12px;
+            right: 30px;
             top: 50%;
             transform: translateY(-50%);
             z-index: 20;
-            background: rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.3);
             backdrop-filter: blur(20px);
-            border: 2px solid rgba(255,255,255,0.35);
+            border: 2px solid rgba(255,255,255,0.4);
             border-radius: 20px;
-            padding: 16px 14px;
+            padding: 16px 20px;
             display: none;
             flex-direction: column;
             align-items: center;
@@ -258,7 +268,7 @@
             color: #1a3a5a;
             font-family: 'Orbitron', sans-serif;
             font-size: 10px;
-            min-width: 70px;
+            min-width: 80px;
         }
         .transform-panel.show { display: flex; }
         .transform-panel .ctrl-group {
@@ -271,8 +281,7 @@
         .transform-panel .ctrl-group label {
             font-size: 9px;
             opacity: 0.5;
-            letter-spacing: 2px;
-            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
         .transform-panel input[type="range"] {
             width: 60px;
@@ -282,28 +291,27 @@
             background: rgba(255,255,255,0.3);
             border-radius: 4px;
             outline: none;
-            writing-mode: bt-lr;
         }
         .transform-panel input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background: rgba(74,138,170,0.4);
             border: 2px solid rgba(74,138,170,0.6);
             cursor: pointer;
         }
         .transform-panel input[type="range"]::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background: rgba(74,138,170,0.4);
             border: 2px solid rgba(74,138,170,0.6);
             cursor: pointer;
         }
         .transform-panel .ctrl-value {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             color: #1a3a5a;
         }
@@ -311,7 +319,7 @@
             background: rgba(255,255,255,0.2);
             border: 2px solid rgba(255,255,255,0.3);
             border-radius: 40px;
-            padding: 2px 10px;
+            padding: 2px 12px;
             font-size: 9px;
             font-family: 'Orbitron', sans-serif;
             color: #1a3a5a;
@@ -321,6 +329,12 @@
         }
         .transform-panel .close-transform:hover {
             background: rgba(255,255,255,0.4);
+        }
+        .transform-panel .selected-label {
+            font-size: 9px;
+            opacity: 0.4;
+            text-align: center;
+            margin-bottom: 2px;
         }
 
         .intro-overlay {
@@ -391,24 +405,6 @@
         @keyframes fadeInBubble {
             from { opacity: 0; transform: translateY(-10px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .style-selector {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 10px 0;
-        }
-        .style-option {
-            padding: 8px 6px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.08); cursor: pointer; text-align: center;
-            transition: 0.2s; font-size: 11px; color: #1a3a5a; font-family: 'Orbitron', sans-serif;
-        }
-        .style-option:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
-        .style-option.active { border-color: rgba(74,138,170,0.5); background: rgba(74,138,170,0.1); box-shadow: 0 0 20px rgba(74,138,170,0.04); }
-        .style-option .style-preview { font-size: 28px; display: block; margin-bottom: 2px; }
-        .style-option .style-label { font-size: 9px; opacity: 0.6; }
-        .style-option .style-count {
-            font-size: 10px;
-            opacity: 0.5;
-            margin-top: 2px;
         }
 
         .library {
@@ -515,10 +511,6 @@
         .counter-preview {
             text-align: center; font-size: 13px; color: #4a7a9a; margin-top: 8px;
             font-family: 'Orbitron', sans-serif;
-        }
-        .style-selector-title {
-            font-size: 12px; font-family: 'Orbitron', sans-serif; color: #4a7a9a;
-            margin: 12px 0 6px 0; text-align: center;
         }
 
         .toast-panel {
@@ -682,8 +674,8 @@
             .library { width: 220px; min-width: 220px; }
             .lib-item { min-height: 36px; height: 36px; font-size: 11px; padding: 6px 10px; }
             .intro-popup { max-width: 400px; padding: 20px 24px; }
-            .transform-panel { right: 8px; padding: 12px 10px; min-width: 60px; }
-            .transform-panel input[type="range"] { width: 50px; }
+            .transform-panel { right: 16px; padding: 12px 14px; min-width: 60px; }
+            .transform-panel input[type="range"] { width: 40px; }
         }
         @media (max-width: 900px) {
             .app-container { height: auto; min-height: 680px; border-radius: 24px; }
@@ -696,8 +688,8 @@
             .intro-popup { max-width: 340px; padding: 16px 18px; }
             .intro-popup .intro-body { font-size: 12px; }
             .intro-popup .placement-diagram { font-size: 12px; }
-            .transform-panel { right: 6px; padding: 10px 8px; min-width: 50px; }
-            .transform-panel input[type="range"] { width: 40px; }
+            .transform-panel { right: 12px; padding: 10px 12px; min-width: 50px; }
+            .transform-panel input[type="range"] { width: 30px; }
             .transform-panel .ctrl-group label { font-size: 8px; }
             .transform-panel .ctrl-value { font-size: 9px; }
         }
@@ -714,11 +706,11 @@
             .intro-popup { max-width: 300px; padding: 14px 16px; }
             .intro-popup .intro-body { font-size: 11px; }
             .intro-popup .intro-actions button { font-size: 10px; padding: 6px 14px; }
-            .transform-panel { right: 4px; padding: 8px 6px; min-width: 40px; }
-            .transform-panel input[type="range"] { width: 30px; }
+            .transform-panel { right: 8px; padding: 8px 10px; min-width: 40px; }
+            .transform-panel input[type="range"] { width: 20px; }
             .transform-panel .ctrl-group label { font-size: 7px; }
             .transform-panel .ctrl-value { font-size: 8px; }
-            .transform-panel .close-transform { font-size: 7px; padding: 1px 6px; }
+            .transform-panel .close-transform { font-size: 8px; padding: 1px 8px; }
         }
     </style>
 </head>
@@ -853,15 +845,16 @@
             </div>
         </div>
 
-        <!-- Transform Panel - Right side -->
+        <!-- Transform Panel - 固定在右侧 -->
         <div class="transform-panel" id="transformPanel">
+            <div class="selected-label" id="selectedLabel">Select an item</div>
             <div class="ctrl-group">
-                <label>SIZE</label>
-                <input type="range" id="sizeSlider" min="20" max="200" value="100">
+                <label>Size</label>
+                <input type="range" id="sizeSlider" min="30" max="200" value="100">
                 <span class="ctrl-value" id="sizeValue">100%</span>
             </div>
             <div class="ctrl-group">
-                <label>ROTATE</label>
+                <label>Rotate</label>
                 <input type="range" id="rotateSlider" min="0" max="360" value="0">
                 <span class="ctrl-value" id="rotateValue">0°</span>
             </div>
@@ -874,7 +867,6 @@
             <div class="lib-item" data-action="face"><i class="fas fa-user"></i><span class="lib-label">Face</span></div>
             <div class="lib-item" data-action="view"><i class="fas fa-eye"></i><span class="lib-label">Views</span></div>
             <div class="lib-divider"></div>
-            <!-- 7 Items, each with one style (using real images) -->
             <div class="lib-item" data-action="counter" data-item="workbench"><i class="fas fa-tools"></i><span class="lib-label">Workbench</span></div>
             <div class="lib-item" data-action="counter" data-item="control"><i class="fas fa-sliders-h"></i><span class="lib-label">Control Panel</span></div>
             <div class="lib-item" data-action="counter" data-item="arm"><i class="fas fa-robot"></i><span class="lib-label">Robotic Arm</span></div>
@@ -922,7 +914,9 @@
 <script>
 (function() {
     // ============================================================
-    // IMAGE MAPPING: 1.png to 7.png correspond to each item
+    // ITEM IMAGE MAPPING - 替换成你的图片
+    // 1.png = Workbench, 2.png = Control Panel, 3.png = Robotic Arm
+    // 4.png = Conveyor Belt, 5.png = Safety Fence, 6.png = Warning Sign, 7.png = Plant
     // ============================================================
     const ITEM_IMAGES = {
         workbench: '1.png',
@@ -933,13 +927,11 @@
         sign: '6.png',
         plant: '7.png'
     };
-
-    const MAX_PER_ITEM = 10;
-    const ITEM_KEYS = ['workbench','control','arm','conveyor','fence','sign','plant'];
     const LABELS = {
         workbench:'Workbench', control:'Control Panel', arm:'Robotic Arm',
         conveyor:'Conveyor Belt', fence:'Safety Fence', sign:'Warning Sign', plant:'Plant'
     };
+    const ITEM_KEYS = ['workbench','control','arm','conveyor','fence','sign','plant'];
 
     let itemCounts = {};
     let itemPositions = {};
@@ -991,6 +983,7 @@
     const sizeValue = document.getElementById('sizeValue');
     const rotateValue = document.getElementById('rotateValue');
     const closeTransform = document.getElementById('closeTransform');
+    const selectedLabel = document.getElementById('selectedLabel');
 
     let toastTimer = null;
 
@@ -1024,8 +1017,8 @@
         }
     }
 
-    function getImagePath(itemKey) {
-        return ITEM_IMAGES[itemKey] || '1.png';
+    function getItemImage(key) {
+        return ITEM_IMAGES[key] || '1.png';
     }
 
     // ===== ITEM INFO =====
@@ -1117,15 +1110,16 @@
     function renderCounterPopup(itemKey) {
         const current = itemCounts[itemKey] || 0;
         const label = LABELS[itemKey] || itemKey;
+        const img = getItemImage(itemKey);
 
         const html = `
             <button class="close-btn" id="popupClose"><i class="fas fa-times"></i> Close</button>
             <h2><i class="fas fa-plus-circle"></i> ${label}</h2>
-            <div class="counter-label">How many ${label} do you want? (max ${MAX_PER_ITEM})</div>
+            <div class="counter-label"><img src="${img}" style="width:40px;height:40px;object-fit:contain;display:inline-block;vertical-align:middle;"> How many ${label} do you want? (max 5)</div>
             <div class="counter-control">
                 <button class="counter-btn" id="counterDec" ${current <= 0 ? 'disabled' : ''}>−</button>
                 <span class="counter-num" id="counterNum">${current}</span>
-                <button class="counter-btn" id="counterInc" ${current >= MAX_PER_ITEM ? 'disabled' : ''}>+</button>
+                <button class="counter-btn" id="counterInc" ${current >= 5 ? 'disabled' : ''}>+</button>
             </div>
             <div class="counter-preview">Currently ${current} in scene</div>
             <div style="text-align:center;margin-top:12px;color:#4a7a9a;font-size:12px;">💡 Click an item in the scene to resize or rotate it</div>
@@ -1152,7 +1146,7 @@
         });
 
         document.getElementById('counterInc').addEventListener('click', function() {
-            if (itemCounts[itemKey] < MAX_PER_ITEM) {
+            if (itemCounts[itemKey] < 5) {
                 const idx = itemCounts[itemKey];
                 const id = itemKey + '-' + idx;
                 const positions = generatePositions(itemKey, idx + 1);
@@ -1206,15 +1200,10 @@
         const b = base[key] || { left: 40, bottom: 30 };
         const offsets = [
             { dx: 0, dy: 0 },
-            { dx: -6, dy: 6 },
-            { dx: 6, dy: -6 },
-            { dx: -10, dy: -4 },
-            { dx: 10, dy: 4 },
-            { dx: -14, dy: 8 },
-            { dx: 14, dy: -8 },
-            { dx: -8, dy: -10 },
-            { dx: 8, dy: 10 },
-            { dx: 0, dy: -12 }
+            { dx: -8, dy: 6 },
+            { dx: 8, dy: -6 },
+            { dx: -12, dy: -4 },
+            { dx: 12, dy: 4 }
         ];
         const positions = [];
         for (let i = 0; i < count && i < offsets.length; i++) {
@@ -1233,6 +1222,7 @@
 
         ITEM_KEYS.forEach(key => {
             const count = itemCounts[key] || 0;
+            const img = getItemImage(key);
             for (let i = 0; i < count; i++) {
                 const id = key + '-' + i;
                 let pos = itemPositions[id];
@@ -1245,11 +1235,10 @@
                 if (!itemRotations[id]) itemRotations[id] = 0;
                 const scale = itemScales[id] / 100;
                 const rotate = itemRotations[id];
-                const imgPath = getImagePath(key);
                 const isSelected = (selectedObjectId === id);
                 html += `<div class="scene-object ${isSelected ? 'selected' : ''}" data-id="${id}" data-key="${key}" data-index="${i}" 
-                          style="left:${pos.left}; bottom:${pos.bottom}; width:${80 * scale}px; height:${80 * scale}px; z-index:2; cursor:pointer; transform: rotate(${rotate}deg);">
-                    <img src="${imgPath}" alt="${key}" draggable="false">
+                          style="left:${pos.left}; bottom:${pos.bottom}; transform: rotate(${rotate}deg); cursor:pointer; z-index:2;">
+                    <img src="${img}" style="width:${52 * scale}px; height:${52 * scale}px; object-fit:contain; display:block; pointer-events:none;">
                 </div>`;
             }
         });
@@ -1304,6 +1293,7 @@
         rotateSlider.value = rotate;
         sizeValue.textContent = Math.round(scale) + '%';
         rotateValue.textContent = Math.round(rotate) + '°';
+        selectedLabel.textContent = LABELS[el.dataset.key] || 'Item';
         transformPanel.classList.add('show');
     }
 
@@ -1315,9 +1305,12 @@
         sizeValue.textContent = Math.round(val) + '%';
         const el = document.querySelector(`.scene-object[data-id="${selectedObjectId}"]`);
         if (el) {
-            const baseSize = 80;
-            el.style.width = (baseSize * val / 100) + 'px';
-            el.style.height = (baseSize * val / 100) + 'px';
+            const img = el.querySelector('img');
+            if (img) {
+                const baseSize = 52;
+                img.style.width = (baseSize * val / 100) + 'px';
+                img.style.height = (baseSize * val / 100) + 'px';
+            }
         }
     });
 
@@ -1341,7 +1334,6 @@
         transformPanel.classList.remove('show');
     });
 
-    // Click outside to deselect
     document.addEventListener('click', function(e) {
         if (selectedObjectId && !e.target.closest('.scene-object') && !e.target.closest('.transform-panel')) {
             const el = document.querySelector(`.scene-object[data-id="${selectedObjectId}"]`);
@@ -1375,6 +1367,7 @@
             rotateSlider.value = rotate;
             sizeValue.textContent = Math.round(scale) + '%';
             rotateValue.textContent = Math.round(rotate) + '°';
+            selectedLabel.textContent = LABELS[el.dataset.key] || 'Item';
         }
 
         dragData = { el, id, offsetX, offsetY, container };
@@ -1409,6 +1402,7 @@
             rotateSlider.value = rotate;
             sizeValue.textContent = Math.round(scale) + '%';
             rotateValue.textContent = Math.round(rotate) + '°';
+            selectedLabel.textContent = LABELS[el.dataset.key] || 'Item';
         }
 
         dragData = { el, id, offsetX, offsetY, container };
@@ -1578,14 +1572,14 @@
         previewHtml += `<div class="factory-scene" style="position:relative;height:160px;">`;
         ITEM_KEYS.forEach(key => {
             const count = itemCounts[key] || 0;
+            const img = getItemImage(key);
             for (let i = 0; i < count; i++) {
                 const id = key + '-' + i;
                 const pos = itemPositions[id] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
                 const scale = (itemScales[id] || 100) / 100;
                 const rotate = itemRotations[id] || 0;
-                const imgPath = getImagePath(key);
-                previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; width:${60 * scale}px; height:${60 * scale}px; z-index:2; pointer-events:none; transform: rotate(${rotate}deg);">
-                    <img src="${imgPath}" alt="${key}" draggable="false">
+                previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; transform: rotate(${rotate}deg); z-index:2; pointer-events:none;">
+                    <img src="${img}" style="width:${32 * scale}px; height:${32 * scale}px; object-fit:contain; display:block; pointer-events:none;">
                 </div>`;
             }
         });
@@ -1728,21 +1722,21 @@
     function getSmartReply(msg) {
         const q = msg.toLowerCase().trim();
         if (q.match(/^(hi|hello|hey|greetings)/i)) return "Hello! 👋 I'm your Helix Guide assistant. How can I help you?";
-        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant' in the Library to add plants!";
-        if (q.match(/how to place|how do i place|how can i place|add object/i)) return "🔧 Click any item in the Library — then use + and - to set the quantity, up to 10 per type!";
-        if (q.match(/resize|scale|size|zoom|big|small|larger|smaller/i)) return "📐 Click any item in the scene to select it, then use the Size slider on the right panel to resize it!";
-        if (q.match(/rotate|spin|turn|angle/i)) return "🔄 Click any item in the scene to select it, then use the Rotate slider on the right panel to rotate it!";
+        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant' in the Library to add plants to your scene!";
+        if (q.match(/how to place|how do i place|how can i place|add object/i)) return "🔧 Click any item in the Library — I'll introduce it to you first! Then you can add up to 5 of each type.";
         if (q.match(/drag|move|reposition/i)) return "✋ You can drag any item in the scene by clicking and holding it, then moving it to a new position!";
-        if (q.match(/workbench/i)) return "🛠️ Workbench is your main workstation. Click it in the Library to add it to the scene!";
-        if (q.match(/control panel/i)) return "🎛️ Control Panel is the command center. Click it in the Library to add it!";
-        if (q.match(/robotic arm|arm/i)) return "🦾 Robotic Arm performs precise tasks. Click it in the Library to add it!";
-        if (q.match(/conveyor|belt/i)) return "⚙️ Conveyor Belt moves materials. Click it in the Library to add it!";
-        if (q.match(/fence|safety/i)) return "🛡️ Safety Fence keeps workers safe. Click it in the Library to add it!";
-        if (q.match(/sign|warning/i)) return "⚠️ Warning Sign marks the work zone. Click it in the Library to add it!";
+        if (q.match(/resize|scale|size|zoom|big|small|larger|smaller/i)) return "📐 Click any item in the scene to select it, then use the Size slider on the right panel to resize it!";
+        if (q.match(/rotate|spin|turn|angle|rotate/i)) return "🔄 Click any item in the scene to select it, then use the Rotate slider on the right panel to rotate it!";
+        if (q.match(/workbench/i)) return "🛠️ The Workbench is your primary workstation. Click it in the Library to add one to your scene!";
+        if (q.match(/control panel/i)) return "🎛️ The Control Panel is the command center. Click it in the Library to add one to your scene!";
+        if (q.match(/robotic arm|arm/i)) return "🦾 The Robotic Arm is the heart of the cobot system. Click it in the Library to add one!";
+        if (q.match(/conveyor|belt/i)) return "⚙️ The Conveyor Belt moves materials. Click it in the Library to add one!";
+        if (q.match(/fence|safety/i)) return "🛡️ The Safety Fence keeps workers safe. Click it in the Library to add one!";
+        if (q.match(/sign|warning/i)) return "⚠️ The Warning Sign reminds everyone about safety. Click it in the Library to add one!";
         if (q.match(/next|what do i do|what should i do|guide me|what now/i)) {
             const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
             if (total === 0) return "📋 First, customize your avatar (Gender → Face). Then click any item in the Library to start building!";
-            return `📋 You've placed ${total} item(s). Keep adding more (max 10 each)! When done, click 'Save' to get a private code.`;
+            return `📋 You've placed ${total} item(s). Keep adding more (max 5 each)! When done, click 'Save' to get a private code.`;
         }
         if (q.match(/save|code|saved|private code/i)) {
             const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
@@ -1754,9 +1748,9 @@
         if (q.match(/gender|male|female|face|avatar|appearance/i)) return "👤 Go to Gender → select Male/Female → click a face to select it instantly!";
         if (q.match(/thank|thanks|thx|appreciate/i)) return "You're welcome! 😊 Keep building!";
         if (q.match(/help|what can you do|capabilities/i)) {
-            return "🤖 I can help with:\n• Customizing your avatar (Gender → click a face!)\n• Adding items (up to 10 each!)\n• Click any item to resize or rotate it (controls on right)\n• Dragging items anywhere\n• Saving with a code\n• Switching views\n• Resetting workspace\n\nTry it out! 🚀";
+            return "🤖 I can help with:\n• Customizing your avatar (Gender → click a face!)\n• Adding items (max 5 each!)\n• Click any item in the scene to resize or rotate it!\n• Dragging items anywhere\n• Saving with a code\n• Switching views\n• Resetting workspace\n\nTry it out! 🚀";
         }
-        return "🤔 Try customizing your avatar first. Then click items in the Library to add them to the scene!";
+        return "🤔 Try customizing your avatar first: Gender → click a face. Then click items in the Library to add them!";
     }
 
     function addChatMessage(text, sender) {
