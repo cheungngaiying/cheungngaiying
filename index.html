@@ -195,16 +195,26 @@
             background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.3));
             opacity: 0.3;
         }
+
+        /* 物品图片大小：1.png 放大2倍(400px), 6.png和7.png缩小2倍(100px) */
         .scene-object {
             position: absolute;
-            pointer-events: auto; z-index: 2; cursor: grab;
+            pointer-events: auto;
+            cursor: grab;
             padding: 4px;
             border-radius: 8px;
             touch-action: none;
             transition: transform 0.2s ease, filter 0.3s ease;
-            width: 200px;
-            height: 200px;
+            z-index: 2;
         }
+        .scene-object[data-key="workbench"] { width: 400px; height: 400px; }
+        .scene-object[data-key="control"] { width: 200px; height: 200px; }
+        .scene-object[data-key="arm"] { width: 200px; height: 200px; }
+        .scene-object[data-key="conveyor"] { width: 200px; height: 200px; }
+        .scene-object[data-key="fence"] { width: 200px; height: 200px; }
+        .scene-object[data-key="sign"] { width: 100px; height: 100px; }
+        .scene-object[data-key="plant"] { width: 100px; height: 100px; }
+
         .scene-object:hover { transform: scale(1.05); filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); }
         .scene-object:active { cursor: grabbing; }
         .scene-object.dragging {
@@ -579,7 +589,13 @@
             .library { width: 220px; min-width: 220px; }
             .lib-item { min-height: 36px; height: 36px; font-size: 11px; padding: 6px 10px; }
             .intro-popup { max-width: 400px; padding: 20px 24px; }
-            .scene-object { width: 160px; height: 160px; }
+            .scene-object[data-key="workbench"] { width: 320px; height: 320px; }
+            .scene-object[data-key="control"] { width: 160px; height: 160px; }
+            .scene-object[data-key="arm"] { width: 160px; height: 160px; }
+            .scene-object[data-key="conveyor"] { width: 160px; height: 160px; }
+            .scene-object[data-key="fence"] { width: 160px; height: 160px; }
+            .scene-object[data-key="sign"] { width: 80px; height: 80px; }
+            .scene-object[data-key="plant"] { width: 80px; height: 80px; }
         }
         @media (max-width: 900px) {
             .app-container { height: auto; min-height: 680px; border-radius: 24px; }
@@ -592,7 +608,13 @@
             .intro-popup { max-width: 340px; padding: 16px 18px; }
             .intro-popup .intro-body { font-size: 12px; }
             .intro-popup .placement-diagram { font-size: 12px; }
-            .scene-object { width: 130px; height: 130px; }
+            .scene-object[data-key="workbench"] { width: 240px; height: 240px; }
+            .scene-object[data-key="control"] { width: 120px; height: 120px; }
+            .scene-object[data-key="arm"] { width: 120px; height: 120px; }
+            .scene-object[data-key="conveyor"] { width: 120px; height: 120px; }
+            .scene-object[data-key="fence"] { width: 120px; height: 120px; }
+            .scene-object[data-key="sign"] { width: 60px; height: 60px; }
+            .scene-object[data-key="plant"] { width: 60px; height: 60px; }
         }
         @media (max-width: 600px) {
             .library { width: 140px; min-width: 140px; padding: 8px 6px; }
@@ -607,7 +629,13 @@
             .intro-popup { max-width: 300px; padding: 14px 16px; }
             .intro-popup .intro-body { font-size: 11px; }
             .intro-popup .intro-actions button { font-size: 10px; padding: 6px 14px; }
-            .scene-object { width: 100px; height: 100px; }
+            .scene-object[data-key="workbench"] { width: 160px; height: 160px; }
+            .scene-object[data-key="control"] { width: 80px; height: 80px; }
+            .scene-object[data-key="arm"] { width: 80px; height: 80px; }
+            .scene-object[data-key="conveyor"] { width: 80px; height: 80px; }
+            .scene-object[data-key="fence"] { width: 80px; height: 80px; }
+            .scene-object[data-key="sign"] { width: 50px; height: 50px; }
+            .scene-object[data-key="plant"] { width: 50px; height: 50px; }
         }
     </style>
 </head>
@@ -1331,7 +1359,8 @@
                 const id = key + '-' + i;
                 const pos = itemPositions[id] || { left: (30 + Math.random() * 40) + '%', bottom: (10 + Math.random() * 50) + '%' };
                 const imgFile = IMG_FILES[key];
-                previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; width:100px; height:100px; z-index:2; pointer-events:none; cursor:default;">
+                const size = key === 'sign' || key === 'plant' ? '80px' : '160px';
+                previewHtml += `<div class="scene-object" style="left:${pos.left}; bottom:${pos.bottom}; width:${size}; height:${size}; z-index:2; pointer-events:none; cursor:default;">
                     <img src="${imgFile}" style="width:100%;height:100%;object-fit:contain;display:block;">
                 </div>`;
             }
