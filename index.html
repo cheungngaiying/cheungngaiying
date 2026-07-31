@@ -196,7 +196,6 @@
             opacity: 0.3;
         }
 
-        /* 物品图片大小：1.png 放大2倍(400px), 6.png和7.png缩小2倍(100px) */
         .scene-object {
             position: absolute;
             pointer-events: auto;
@@ -830,7 +829,6 @@
         conveyor:'Conveyor Belt', fence:'Safety Fence', sign:'Warning Sign', plant:'Plant'
     };
     const ITEM_KEYS = ['workbench','control','arm','conveyor','fence','sign','plant'];
-    // 图片文件名映射
     const IMG_FILES = {
         workbench: '1.png',
         control: '2.png',
@@ -841,6 +839,59 @@
         plant: '7.png'
     };
     const MAX_PER_ITEM = 5;
+
+    // 物品功能描述 + 摆放位置建议（用于AI对话和介绍弹窗）
+    const ITEM_KNOWLEDGE = {
+        workbench: {
+            name: 'Workbench',
+            icon: '🔧',
+            desc: 'The Workbench is your main assembly and inspection station. It serves as the foundation of your collaborative robot workspace.',
+            position: 'Place it FIRST, in the bottom-left area of your workspace. This is where all main assembly tasks will be performed.',
+            tip: 'Start here! Everything else builds around this central workstation.'
+        },
+        control: {
+            name: 'Control Panel',
+            icon: '🎛️',
+            desc: 'The Control Panel is the command center for your robotic system. You use it to monitor operations, adjust settings, and control the robotic arm.',
+            position: 'Place it AFTER the Workbench, in the center area, right next to it. This keeps all controls within easy reach.',
+            tip: 'This is your main interface — keep it close to the workbench for efficient workflow.'
+        },
+        arm: {
+            name: 'Robotic Arm',
+            icon: '🦾',
+            desc: 'The Robotic Arm is the heart of your collaborative robot system. It performs precise tasks like picking, placing, assembling, and welding.',
+            position: 'Place it AFTER the Control Panel, in the center-right area. It should be positioned to reach the workbench and conveyor belt.',
+            tip: 'This is the most important part of your cobot! It does the actual work.'
+        },
+        conveyor: {
+            name: 'Conveyor Belt',
+            icon: '⚙️',
+            desc: 'The Conveyor Belt moves materials and parts through your workspace. It automates the flow of items between workstations.',
+            position: 'Place it AFTER the Robotic Arm, on the right side, extending outward. It should connect to the robotic arm\'s reach area.',
+            tip: 'Think about the flow — materials come in from the conveyor, get processed by the arm, and move out.'
+        },
+        fence: {
+            name: 'Safety Fence',
+            icon: '🛡️',
+            desc: 'The Safety Fence protects workers by defining the work area boundary. It keeps people at a safe distance from moving machinery.',
+            position: 'Place it AFTER the Conveyor Belt, surrounding the entire work zone. In a real factory, this is mandatory for safety compliance.',
+            tip: 'Safety first! This is not optional in any real industrial environment.'
+        },
+        sign: {
+            name: 'Warning Sign',
+            icon: '⚠️',
+            desc: 'The Warning Sign alerts everyone that this is a work zone. It reminds workers to stay alert and follow safety procedures.',
+            position: 'Place it AFTER the Safety Fence, in the front-left corner where it is highly visible to anyone approaching the work area.',
+            tip: 'Place it where everyone can see it — visibility is key for safety signs.'
+        },
+        plant: {
+            name: 'Plant',
+            icon: '🌿',
+            desc: 'Adding a Plant brings some greenery to the industrial environment. It makes the workspace feel more welcoming and less stressful.',
+            position: 'Place it ANYWHERE you like! Corners or near the entrance are popular choices. It\'s the most flexible item in the workspace.',
+            tip: 'A little green goes a long way — it improves mood and reduces stress in industrial settings.'
+        }
+    };
 
     let itemCounts = {};
     let itemPositions = {};
@@ -921,55 +972,222 @@
         return `<img src="${filename}" style="width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;">`;
     }
 
-    // ===== ITEM INFO =====
+    // ============================================================
+    // 智能AI对话
+    // ============================================================
+    function getSmartReply(msg) {
+        const q = msg.toLowerCase().trim();
+
+        // 打招呼
+        if (q.match(/^(hi|hello|hey|greetings|sup|yo|howdy)/i)) {
+            return "Hello! 👋 I'm your Helix Guide assistant. I can help you learn about each item, the correct placement order, and how to build your collaborative robot workspace. What would you like to know?";
+        }
+
+        // 帮助
+        if (q.match(/help|what can you do|capabilities|function/i)) {
+            return "🤖 I can help you with:\n\n• What each item does (e.g., 'What is a Workbench?')\n• Where to place each item (e.g., 'Where should I put the Robotic Arm?')\n• The correct placement order (e.g., 'What order should I follow?')\n• How to use the platform (e.g., 'How do I add items?')\n\nJust ask me anything about your workspace! 🚀";
+        }
+
+        // ---- 物品功能查询 ----
+        // Workbench
+        if (q.match(/workbench|work bench/i) && (q.match(/what|is|do|does|function|purpose|use|used for/i) || !q.match(/where|place|put|position|location/i))) {
+            return "🛠️ The Workbench is your main assembly and inspection station. It serves as the foundation of your collaborative robot workspace. This is where you'll perform tasks like assembly, inspection, and testing. You should place it FIRST, in the bottom-left area of your workspace. 🔧 Tip: Start here! Everything else builds around this central workstation.";
+        }
+
+        // Control Panel
+        if (q.match(/control panel|control|panel/i) && (q.match(/what|is|do|does|function|purpose|use|used for/i) || !q.match(/where|place|put|position|location/i))) {
+            return "🎛️ The Control Panel is the command center for your robotic system. You use it to monitor operations, adjust settings, and control the robotic arm. It's your main interface for interacting with the cobot. You should place it AFTER the Workbench, in the center area, right next to it. 🔧 Tip: Keep it close to the workbench for an efficient workflow.";
+        }
+
+        // Robotic Arm
+        if (q.match(/robotic arm|arm|robot arm/i) && (q.match(/what|is|do|does|function|purpose|use|used for/i) || !q.match(/where|place|put|position|location/i))) {
+            return "🦾 The Robotic Arm is the heart of your collaborative robot system! It performs precise tasks like picking, placing, assembling, and welding. This is the most important part of your cobot — it does the actual work. You should place it AFTER the Control Panel, in the center-right area, positioned to reach both the workbench and the conveyor belt. 🔧 Tip: This is the star of your workspace!";
+        }
+
+        // Conveyor Belt
+        if (q.match(/conveyor|belt|conveyor belt/i) && (q.match(/what|is|do|does|function|purpose|use|used for/i) || !q.match(/where|place|put|position|location/i))) {
+            return "⚙️ The Conveyor Belt moves materials and parts through your workspace. It automates the flow of items between workstations, making your production line more efficient. You should place it AFTER the Robotic Arm, on the right side, extending outward so it connects to the robotic arm's reach area. 🔧 Tip: Think about the flow — materials come in from the conveyor, get processed by the arm, and move out.";
+        }
+
+        // Safety Fence
+        if (q.match(/safety fence|fence|safety/i) && (q.match(/what|is|do|does|function|purpose|use|used for/i) || !q.match(/where|place|put|position|location/i))) {
+            return "🛡️ The Safety Fence protects workers by defining the work area boundary. It keeps people at a safe distance from moving machinery and is mandatory in any real industrial environment for safety compliance. You should place it AFTER the Conveyor Belt, surrounding the entire work zone. 🔧 Tip: Safety first! This is not optional.";
+        }
+
+        // Warning Sign
+        if (q.match(/warning sign|warning|sign/i) && (q.match(/what|is|do|does|function|purpose|use|used for/i) || !q.match(/where|place|put|position|location/i))) {
+            return "⚠️ The Warning Sign alerts everyone that this is a work zone. It reminds workers to stay alert and follow safety procedures. You should place it AFTER the Safety Fence, in the front-left corner where it is highly visible to anyone approaching the work area. 🔧 Tip: Visibility is key for safety signs — place it where everyone can see it.";
+        }
+
+        // Plant
+        if (q.match(/plant|greenery|leaf/i) && (q.match(/what|is|do|does|function|purpose|use|used for/i) || !q.match(/where|place|put|position|location/i))) {
+            return "🌿 Adding a Plant brings some greenery to the industrial environment. It makes the workspace feel more welcoming and less stressful. Studies show that plants in the workplace can improve mood and reduce stress. You can place it ANYWHERE you like — corners or near the entrance are popular choices. 🔧 Tip: A little green goes a long way!";
+        }
+
+        // ---- 摆放位置查询 ----
+        if (q.match(/where|place|put|position|location/i)) {
+            if (q.match(/workbench|work bench/i)) {
+                return "📍 The Workbench should be placed FIRST, in the bottom-left area of your workspace. This is where all main assembly tasks will be performed. 🔧 Tip: Start here! Everything else builds around this central workstation.";
+            }
+            if (q.match(/control panel|control|panel/i)) {
+                return "📍 The Control Panel should be placed AFTER the Workbench, in the center area, right next to it. This keeps all controls within easy reach of the workstation. 🔧 Tip: Keep it close for an efficient workflow.";
+            }
+            if (q.match(/robotic arm|arm|robot arm/i)) {
+                return "📍 The Robotic Arm should be placed AFTER the Control Panel, in the center-right area. It should be positioned to reach both the workbench and the conveyor belt. 🔧 Tip: This is the heart of your cobot system!";
+            }
+            if (q.match(/conveyor|belt|conveyor belt/i)) {
+                return "📍 The Conveyor Belt should be placed AFTER the Robotic Arm, on the right side, extending outward. It should connect to the robotic arm's reach area for smooth material flow. 🔧 Tip: Think about the flow — materials come in, get processed, and move out.";
+            }
+            if (q.match(/safety fence|fence|safety/i)) {
+                return "📍 The Safety Fence should be placed AFTER the Conveyor Belt, surrounding the entire work zone. In a real factory, this is mandatory for safety compliance. 🔧 Tip: Safety first! This protects everyone in the workspace.";
+            }
+            if (q.match(/warning sign|warning|sign/i)) {
+                return "📍 The Warning Sign should be placed AFTER the Safety Fence, in the front-left corner where it is highly visible to anyone approaching the work area. 🔧 Tip: Place it where everyone can see it — visibility is key.";
+            }
+            if (q.match(/plant|greenery|leaf/i)) {
+                return "📍 The Plant can be placed ANYWHERE you like! Corners or near the entrance are popular choices. It's the most flexible item in the workspace. 🔧 Tip: A little green goes a long way!";
+            }
+        }
+
+        // ---- 摆放顺序查询 ----
+        if (q.match(/order|sequence|step|follow|arrange|sort|first|second|third|next|after|before|proper|correct/i)) {
+            return "📋 The correct placement order is:\n\n1️⃣ Workbench — the foundation\n2️⃣ Control Panel — the command center\n3️⃣ Robotic Arm — the main worker\n4️⃣ Conveyor Belt — material flow\n5️⃣ Safety Fence — protection\n6️⃣ Warning Sign — safety awareness\n7️⃣ Plant — comfort and greenery\n\n🔧 Follow this order to build your workspace correctly!";
+        }
+
+        // ---- 如何添加物品 ----
+        if (q.match(/how to add|how do i add|add item|place item|add object|place object/i)) {
+            const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
+            if (total === 0) {
+                return "📋 To add an item:\n\n1. Click any item in the Library on the left\n2. Read the introduction popup\n3. Click 'OK, Place It'\n4. Choose how many you want (max 5)\n5. Click 'Add to Scene'\n\nStart with the Workbench — it's the foundation of your workspace! 🚀";
+            }
+            return "📋 To add more items:\n\n1. Click any item in the Library on the left\n2. Use the + and - buttons to adjust the quantity\n3. Click 'Add to Scene' to place them\n\nYou can add up to 5 of each item type. Currently you have " + total + " items placed. 🚀";
+        }
+
+        // ---- 当前进度查询 ----
+        if (q.match(/progress|how many|what have i placed|what did i place|my items|placed|count|total/i)) {
+            const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
+            const placed = ITEM_KEYS.filter(k => itemCounts[k] > 0);
+            if (total === 0) {
+                return "📋 You haven't placed any items yet! Start by clicking 'Workbench' in the Library to begin building your workspace. 🚀";
+            }
+            return "📋 You've placed " + total + " item(s) so far. You have: " + placed.map(k => itemCounts[k] + " " + LABELS[k]).join(', ') + ". Keep adding more (max 5 each)!";
+        }
+
+        // ---- 下一步做什么 ----
+        if (q.match(/next|what do i do|what should i do|guide me|what now|what to do|suggest|advice/i)) {
+            const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
+            if (total === 0) {
+                return "📋 You haven't placed anything yet! First, customize your avatar (Gender → Face). Then click 'Workbench' in the Library to start building your workspace. Follow the order: Workbench → Control Panel → Robotic Arm → Conveyor Belt → Safety Fence → Warning Sign → Plant. 🚀";
+            }
+            const placed = ITEM_KEYS.filter(k => itemCounts[k] > 0);
+            if (placed.length < 7) {
+                const next = ITEM_KEYS[placed.length];
+                return "📋 You've placed " + placed.length + " item(s): " + placed.map(k => LABELS[k]).join(', ') + ". Next, place the " + LABELS[next] + "! Click it in the Library. 🔧 Tip: Follow the order — " + LABELS[next] + " comes after " + LABELS[placed[placed.length-1]] + ".";
+            }
+            return "🎉 Amazing! You've placed all 7 items! Your workspace is complete. Now click 'Save' in the Library to generate your private code and save your work. 🔑";
+        }
+
+        // ---- 重置 ----
+        if (q.match(/reset|clear|remove all|start over|delete all/i)) {
+            return "🔄 To reset everything and start over, click 'Reset All' at the bottom of the Library. This will remove all objects from your workspace so you can rebuild from scratch. ⚠️ This cannot be undone!";
+        }
+
+        // ---- 保存 ----
+        if (q.match(/save|code|saved|private code/i)) {
+            const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
+            if (total < 3) {
+                return "🔑 You need to place at least 3 items before you can save. Keep building your workspace — try placing the Workbench, Control Panel, and Robotic Arm first!";
+            }
+            return "🔑 Click 'Save' in the Library to generate your private 6-letter code. Keep this code safe — you'll need it to re-enter your workspace anytime!";
+        }
+
+        // ---- Views ----
+        if (q.match(/view|camera|perspective|first person|third person/i)) {
+            return "👁️ Use 'Views' in the Library to switch between First Person and Third Person views. First Person is immersive; Third Person lets you see your avatar and surroundings together. Try them both to see which you prefer!";
+        }
+
+        // ---- Avatar ----
+        if (q.match(/gender|male|female|face|avatar|appearance|look/i)) {
+            return "👤 Go to Gender → select Male or Female → click a face to select it instantly. Your avatar will appear in the top-left corner of the scene. You can change it anytime by clicking Gender and Face again!";
+        }
+
+        // ---- 感谢 ----
+        if (q.match(/thank|thanks|thx|appreciate/i)) {
+            return "You're welcome! 😊 I'm here to help. Keep building your workspace — you're doing great! Let me know if you need anything else. 🚀";
+        }
+
+        // ---- 默认回复 ----
+        return "🤔 That's a great question! I can help you with:\n\n• What each item does (e.g., 'What is a Robotic Arm?')\n• Where to place items (e.g., 'Where should I put the Conveyor Belt?')\n• The correct placement order (e.g., 'What order should I follow?')\n• How to add items (e.g., 'How do I add a Plant?')\n• Your progress (e.g., 'What have I placed so far?')\n\nTry asking me something specific about your workspace! 🚀";
+    }
+
+    function addChatMessage(text, sender) {
+        const div = document.createElement('div');
+        div.className = `chat-msg ${sender}`;
+        div.textContent = text;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function handleChatSend() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        addChatMessage(text, 'user');
+        chatInput.value = '';
+        setTimeout(() => {
+            const reply = getSmartReply(text);
+            addChatMessage(reply, 'assistant');
+        }, 300);
+    }
+
+    // ===== ITEM INFO for intro popup =====
     const ITEM_INFO = {
         workbench: {
             icon: '1.png', name: 'Workbench',
-            desc: 'Your main assembly station. This is where you will perform assembly, inspection, and testing tasks.',
-            pos: 'Place it FIRST — bottom-left area, as the foundation of your workspace.',
-            tip: 'Start here! Everything else builds around this.',
+            desc: ITEM_KNOWLEDGE.workbench.desc,
+            pos: ITEM_KNOWLEDGE.workbench.position,
+            tip: ITEM_KNOWLEDGE.workbench.tip,
             diagram: '1 → 2 → 3 → 4 → 5 → 6 → 7'
         },
         control: {
             icon: '2.png', name: 'Control Panel',
-            desc: 'The command center for your robotic system. Use it to monitor and control all operations.',
-            pos: 'Place it after the Workbench — center area, right next to it.',
-            tip: 'This is your main interface — keep it close!',
+            desc: ITEM_KNOWLEDGE.control.desc,
+            pos: ITEM_KNOWLEDGE.control.position,
+            tip: ITEM_KNOWLEDGE.control.tip,
             diagram: '1 → 2 → 3 → 4 → 5 → 6 → 7'
         },
         arm: {
             icon: '3.png', name: 'Robotic Arm',
-            desc: 'The heart of your cobot system! Performs precise tasks like picking, placing, and assembling.',
-            pos: 'Place it after the Control Panel — center-right area.',
-            tip: 'This is the most important part of your cobot!',
+            desc: ITEM_KNOWLEDGE.arm.desc,
+            pos: ITEM_KNOWLEDGE.arm.position,
+            tip: ITEM_KNOWLEDGE.arm.tip,
             diagram: '1 → 2 → 3 → 4 → 5 → 6 → 7'
         },
         conveyor: {
             icon: '4.png', name: 'Conveyor Belt',
-            desc: 'Moves materials through your workspace. Automates the flow of parts and products.',
-            pos: 'Place it after the Robotic Arm — right side, extending outward.',
-            tip: 'Think about the flow — materials come in, go out!',
+            desc: ITEM_KNOWLEDGE.conveyor.desc,
+            pos: ITEM_KNOWLEDGE.conveyor.position,
+            tip: ITEM_KNOWLEDGE.conveyor.tip,
             diagram: '1 → 2 → 3 → 4 → 5 → 6 → 7'
         },
         fence: {
             icon: '5.png', name: 'Safety Fence',
-            desc: 'Keeps workers safe from moving machinery. Defines the work area boundary.',
-            pos: 'Place it after the Conveyor Belt — surrounding the work zone.',
-            tip: 'Safety first! This is mandatory in any real factory.',
+            desc: ITEM_KNOWLEDGE.fence.desc,
+            pos: ITEM_KNOWLEDGE.fence.position,
+            tip: ITEM_KNOWLEDGE.fence.tip,
             diagram: '1 → 2 → 3 → 4 → 5 → 6 → 7'
         },
         sign: {
             icon: '6.png', name: 'Warning Sign',
-            desc: 'Reminds everyone that this is a work zone. Safety awareness is key!',
-            pos: 'Place it after the Safety Fence — front-left corner, highly visible.',
-            tip: 'Place it where everyone can see it!',
+            desc: ITEM_KNOWLEDGE.sign.desc,
+            pos: ITEM_KNOWLEDGE.sign.position,
+            tip: ITEM_KNOWLEDGE.sign.tip,
             diagram: '1 → 2 → 3 → 4 → 5 → 6 → 7'
         },
         plant: {
             icon: '7.png', name: 'Plant',
-            desc: 'Adds some greenery to make the industrial environment feel more welcoming and less stressful.',
-            pos: 'Place it anywhere you like! — corner or near the entrance.',
-            tip: 'A little green goes a long way!',
+            desc: ITEM_KNOWLEDGE.plant.desc,
+            pos: ITEM_KNOWLEDGE.plant.position,
+            tip: ITEM_KNOWLEDGE.plant.tip,
             diagram: '1 → 2 → 3 → 4 → 5 → 6 → 7'
         }
     };
@@ -1018,6 +1236,7 @@
         const current = itemCounts[itemKey] || 0;
         const label = LABELS[itemKey] || itemKey;
         const imgFile = IMG_FILES[itemKey];
+        const knowledge = ITEM_KNOWLEDGE[itemKey];
 
         const html = `
             <button class="close-btn" id="popupClose"><i class="fas fa-times"></i> Close</button>
@@ -1025,6 +1244,8 @@
             <div style="text-align:center;margin-bottom:8px;">
                 <img src="${imgFile}" style="width:64px;height:64px;object-fit:contain;">
             </div>
+            <div style="font-size:12px;color:#4a7a9a;margin-bottom:8px;font-family:'Segoe UI',sans-serif;">${knowledge ? knowledge.desc : ''}</div>
+            <div style="font-size:11px;color:#4a7a9a;margin-bottom:12px;font-family:'Segoe UI',sans-serif;">📍 ${knowledge ? knowledge.position : ''}</div>
             <div class="counter-label">How many ${label} do you want? (max ${MAX_PER_ITEM})</div>
             <div class="counter-control">
                 <button class="counter-btn" id="counterDec" ${current <= 0 ? 'disabled' : ''}>−</button>
@@ -1500,58 +1721,6 @@
         }
     }
 
-    // ===== AI Chat =====
-    function getSmartReply(msg) {
-        const q = msg.toLowerCase().trim();
-        if (q.match(/^(hi|hello|hey|greetings)/i)) return "Hello! 👋 I'm your Helix Guide assistant. How can I help you?";
-        if (q.match(/plant|put plant|place plant|add plant/i)) return "🌿 Click 'Plant' in the Library to add plants!";
-        if (q.match(/how to place|how do i place|how can i place|add object/i)) return "🔧 Click any item in the Library, then choose how many you want (max 5) and click 'Add to Scene'!";
-        if (q.match(/drag|move|reposition/i)) return "✋ You can drag any item in the scene by clicking and holding it, then moving it to a new position!";
-        if (q.match(/workbench/i)) return "🛠️ Workbench is the first item — click it in the Library to add!";
-        if (q.match(/control panel/i)) return "🎛️ Control Panel is the second item — click it in the Library to add!";
-        if (q.match(/robotic arm|arm/i)) return "🦾 Robotic Arm is the third item — click it in the Library to add!";
-        if (q.match(/conveyor|belt/i)) return "⚙️ Conveyor Belt is the fourth item — click it in the Library to add!";
-        if (q.match(/fence|safety/i)) return "🛡️ Safety Fence is the fifth item — click it in the Library to add!";
-        if (q.match(/sign|warning/i)) return "⚠️ Warning Sign is the sixth item — click it in the Library to add!";
-        if (q.match(/next|what do i do|what should i do|guide me|what now/i)) {
-            const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
-            if (total === 0) return "📋 First, customize your avatar (Gender → Face). Then click any item in the Library to start building!";
-            return `📋 You've placed ${total} item(s). Keep adding more (max 5 each)! When done, click 'Save' to get a private code.`;
-        }
-        if (q.match(/save|code|saved|private code/i)) {
-            const total = ITEM_KEYS.reduce((sum, k) => sum + (itemCounts[k] || 0), 0);
-            if (total < 3) return "🔑 Place at least 3 items first, then click 'Save'.";
-            return "🔑 Click 'Save' in the Library to generate your private 6-letter code.";
-        }
-        if (q.match(/reset|clear|remove all|start over/i)) return "🔄 Click 'Reset All' at the bottom of the Library to clear everything.";
-        if (q.match(/view|camera|perspective|first person|third person/i)) return "👁️ Use 'Views' in the Library to switch between First and Third Person views.";
-        if (q.match(/gender|male|female|face|avatar|appearance/i)) return "👤 Go to Gender → select Male/Female → click a face to select it instantly!";
-        if (q.match(/thank|thanks|thx|appreciate/i)) return "You're welcome! 😊 Keep building!";
-        if (q.match(/help|what can you do|capabilities/i)) {
-            return "🤖 I can help with:\n• Customizing your avatar (Gender → click a face!)\n• Adding items (max 5 each!)\n• Dragging items anywhere\n• Saving with a code\n• Switching views\n• Resetting workspace\n\nTry it out! 🚀";
-        }
-        return "🤔 Try customizing your avatar first: Gender → click a face. Then click items in the Library to add them!";
-    }
-
-    function addChatMessage(text, sender) {
-        const div = document.createElement('div');
-        div.className = `chat-msg ${sender}`;
-        div.textContent = text;
-        chatMessages.appendChild(div);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function handleChatSend() {
-        const text = chatInput.value.trim();
-        if (!text) return;
-        addChatMessage(text, 'user');
-        chatInput.value = '';
-        setTimeout(() => {
-            const reply = getSmartReply(text);
-            addChatMessage(reply, 'assistant');
-        }, 300);
-    }
-
     // ===== Navigation =====
     function enterMain() {
         cover.classList.add('hidden');
@@ -1662,7 +1831,16 @@
     document.getElementById('chatTrigger').addEventListener('click', function() { chatOverlay.classList.add('show'); });
     document.getElementById('closeChat').addEventListener('click', function() { chatOverlay.classList.remove('show'); });
     chatOverlay.addEventListener('click', function(e) { if (e.target === this) chatOverlay.classList.remove('show'); });
-    document.getElementById('chatSend').addEventListener('click', handleChatSend);
+    document.getElementById('chatSend').addEventListener('click', function() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        addChatMessage(text, 'user');
+        chatInput.value = '';
+        setTimeout(() => {
+            const reply = getSmartReply(text);
+            addChatMessage(reply, 'assistant');
+        }, 300);
+    });
     chatInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') handleChatSend(); });
 
     updateChatFace();
